@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Basic reset */
 *{
   box-sizing:border-box;
@@ -1073,10 +1074,226 @@ footer p, footer a {
   .tagline { font-size: 1rem; }
   .container { flex-direction: column; }
   .reg, .map {
+=======
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      color: #333;
+    }
+    .home {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    .home img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about {
+      position: absolute;
+      top: 0;
+      left: 50px;
+      right: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    .about .logo {
+      width: 200px;
+      height: auto;
+    }
+
+    .cent {
+      display: flex;
+      gap: 20px;
+    }
+
+    .cent a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 8px 12px;
+      transition: background 0.3s;
+    }
+
+    .cent a:hover {
+      background: rgba(199, 30, 30, 0.7);
+      border-radius: 4px;
+    }
+
+    .tagline {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 90%;
+      text-align: center;
+      padding: 20px 30px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .tagline h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    /* Menu Grid */
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 40px 20px;
+      background: #fafafa;
+      
+    }
+
+    .menu-heading {
+      grid-column: 1/-1;
+      font-size: 1.8rem;
+      margin: 20px 0 10px;
+      text-align: center;
+      font-family: "Cormorant Garamond", serif;
+      color: #b52a2a;
+    }
+
+    .item {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      padding-bottom: 10px;
+      transition: box-shadow 0.3s;
+    }
+
+    .item:hover {
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    .item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .item .dish-name {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+
+    .item .desc {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+
+    .item .price,
+    .item .special {
+      margin: 4px 0;
+      color: #b52a2a;
+      font-weight: bold;
+    }
+    
+    .combination {
+      margin:0 ;
+      padding:2rem;
+      background-color: #e5cac1;
+      text-align: center;
+      
+    }
+    .combo{
+      display: flex;
+      justify-content: center;
+      gap:60px; 
+    }
+    .combination li>h2{
+  width: 250px;    
+  height: 150px;   
+  border: 1px solid gray;
+  border-radius: 60%;  
+  text-align: center;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px;
+  background-color: #f34f4f;
+    }
+    .combination li{
+      list-style: none;
+    }
+    .combination ul{
+      border: 1px solid rgb(248, 240, 240);
+      padding:20px;
+    }
+    .container{
+       display:flex;
+       align-items:strech;
+       width:100%;
+       min-height:400px;
+    }
+    .reg, .map{
+      flex:1;
+    }
+
+    .reg{
+      background: #123;    /* your wood-texture background or overlay */
+      color: #fff;
+      padding: 40px;
+      box-sizing: border-box;
+     }
+     .map {
+      min-height: 400px;   /* ensures the map shows properly */
+      }
+     #mapid{
+     width: 100%;
+     height: 100%; 
+      }
+   
+      footer{
+        background-color: antiquewhite;
+        display:flex;
+        justify-content: space-around;
+        text-align: center;
+        padding:2rem;
+         
+        
+      }
+      @media screen and (max-width: 800px) {
+        .menu {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+         .container {
+    flex-direction: column;
+  }
+  .tagline h1 { font-size: 1.8rem; }
+  .tagline { font-size: 1rem; }
+  .reg,
+  .map {
+>>>>>>> cdc6a8e (Add the starting files)
     flex: 1 1 100%;
     padding: 20px;
   }
   #mapid { min-height: 300px; }
+<<<<<<< HEAD
   footer { flex-direction: column; gap: 20px; }
 }
 
@@ -1229,4 +1446,18 @@ footer p, footer a {
     .user-info-grid {
         grid-template-columns: 1fr;
     }
+=======
+}
+@media screen and (min-width: 300px) {
+.column{
+    flex: 50%;
+    max-width: 50%;
+  }
+  .menu{
+    height: 100%;
+    left: -9999px;
+    max-width: none;
+    right: -9999px;
+  }
+>>>>>>> cdc6a8e (Add the starting files)
 }
