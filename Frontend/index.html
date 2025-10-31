@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moya Cafe and Kitchen LLC</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+</head> 
+  <body>
+  
+ <header class="home">
+  <div class="about" id="header">
+    <img src="image/logo.png" alt="MOYA Cafe Logo" class="logo">
+    <div class="about1">
+      <nav class="cent" id="navLinks">
+        <a href="about.html">ABOUT</a>
+        <a href="reserve.html">RESERVE</a>
+        <a href="cather.html">CATERING</a>
+        <a href="agelgil.html">AGELGIL</a>
+        <a href="order.html">ORDER</a>
+      </nav>
+      <div class="signin">
+        <div class="sign"><a href="signin.html">SIGN IN</a></div>
+        <div class="icons">
+          <a href="signin.html" aria-label="Sign in">
+            <svg viewBox="0 0 24 24" fill="white" width="24" height="24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+              </a>
+          </div>
+        </div>
+  
+<!-- Profile Section (shown when logged in) -->
+<div id="profile-section" class="profile-section" style="display: none;">
+    <div class="profile-info">
+        <div class="profile-dropdown">
+            <div class="user-avatar-container" onclick="toggleDropdown()">
+                <div class="user-avatar-circle" id="user-avatar-circle">
+                    K
+                </div>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="dropdown-content" id="dropdownMenu">
+                <div class="dropdown-header">
+                    <div class="dropdown-avatar">K</div>
+                    <div class="dropdown-user-info">
+                        <div class="dropdown-username">k@gmail.com</div>
+                        <div class="dropdown-welcome">Welcome, k</div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a href="user.html" class="dropdown-item">
+                    <i class="fas fa-user" style="margin-right: 8px;"></i>My Profile
+                </a>
+                <a href="order.html" class="dropdown-item">
+                    <i class="fas fa-shopping-bag" style="margin-right: 8px;"></i>My Orders
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item logout-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <button id="hamburger" class="hamburger" aria-controls="navLinks" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero-slider" id="hero">
+    <!-- Only the first slide has "active" -->
+    <div class="slide active" style="background-image:url('image/pic1.jpg')">
+      <div class="overlay">
+        <div class="tagline">
+          <h1>Taste of Ethiopia</h1>
+          <h1>Authentic Ethiopian Cuisine</h1>
+          <p>Served in a warm, family-friendly space — from savory kitfo to rich coffee traditions.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" style="background-image:url('image/cathering.png')">
+      <div class="overlay">
+        <h1>Make Some Memories</h1>
+        <a href="cather.html" class="btn">Catering</a>
+      </div>
+    </div>
+
+    <div class="slide" style="background-image:url('image/food2.jpg')">
+      <div class="overlay">
+        <h1>Discover our Menu</h1>
+        <a href="order.html" class="btn">Order Now</a>
+      </div>
+    </div>
+
+    <div class="slide" style="background-image:url('image/moya.jpg')">
+      <div class="overlay">
+        <h1>Moya Cafe and Kitchen LLC</h1>
+        <a href="about.html" class="btn">About Us</a>
+      </div>
+    </div>
+
+     <div class="slide" style="background-image:url('image/food.webp')">
+      <div class="overlay">
+         <h1>Authentic Ethiopian Taste</h1>
+        <a href="reserve.html" class="btn">Reserve</a>
+      </div>
+    </div>
+
+    <div class="slide" style="background-image:url('image/moya2.jpg')">
+      <div class="overlay">
+        <h1>Have a Question?</h1>
+        <a href="#contact" class="btn">Contact Us</a>
+      </div>
+    </div>
+     <button class="slider-btn left" onclick="prevSlide()">&#10094;</button>
+  <button class="slider-btn right" onclick="nextSlide()">&#10095;</button>
+  </section>
+</header>
+    
+  <div class="category-grid">
+    <!-- Card 1 -->
+    <div class="category-card">
+      <h2>Sea Food</h2>
+      <div class="products">
+        <div class="product">
+          <img src="image/Assadulet.jpg" alt="Assadulet">
+          <p>Assa Dulet</p>
+        </div>
+        <div class="product">
+          <img src="image/Assagulash.jpeg" alt="Assa Gulash">
+          <p>Assa Gulash</p>
+        </div>
+        <div class="product">
+          <img src="image/assakitfo.jpeg" alt="Assa Kitfo">
+          <p>Assa Kitfo</p>
+        </div>
+        <div class="product">
+          <img src="image/yetasheassa.jpg" alt="yetashe Assa">
+          <p>Yetashe Assa</p>
+        </div>
+      </div>
+      <a href="order.html" class="more-link">Order now</a>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="category-card">
+      <h2>Vegetarian</h2>
+      <div class="products">
+        <div class="product">
+          <img src="image/Gomenwot.jpg" alt="Gomen wot">
+          <p>Gomen Wot</p>
+        </div>
+        <div class="product">
+          <img src="image/suffitfit.jpg" alt="Suf Fitfit">
+          <p>Suf Fitfit</p>
+        </div>
+        <div class="product">
+          <img src="image/atakiltwat.webp" alt="Atakilt wat">
+          <p>Atkilt wot</p>
+        </div>
+        <div class="product">
+          <img src="image/beyayinetu.jpg" alt="Beyayinetu">
+          <p>Beyayinetu</p>
+        </div>
+      </div>
+      <a href="order.html" class="more-link">See more</a>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="category-card">
+      <h2>Breakfast</h2>
+      <div class="products">
+        <div class="product">
+          <img src="image/enkulalfirifiri.jpeg" alt="Enkulal Firfir">
+          <p>Enkulal Firfir</p>
+        </div>
+        <div class="product">
+          <img src="image/pasta.jpeg" alt="Pasta">
+          <p>Pasta</p>
+        </div>
+        <div class="product">
+          <img src="image/Chechebsa.jpg" alt="Chechebsa">
+          <p>Chechebsa</p>
+        </div>
+        <div class="product">
+          <img src="image/feta.jpg" alt="Feta">
+          <p>Feta</p>
+        </div>
+      </div>
+      <a href="order.html" class="more-link">Order now</a>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="category-card">
+      <h2>Lunch</h2>
+      <div class="products">
+        <div class="product">
+          <img src="image/tibs.jpg" alt="Tibs">
+          <p>Tibs</p>
+        </div>
+        <div class="product">
+          <img src="image/awazetibs.jpg" alt="Awaze Tibs">
+          <p>Awaze Tibs</p>
+        </div>
+        <div class="product">
+          <img src="image/derektibs.jpeg" alt="Derek Tibs">
+          <p>Derek Tibs</p>
+        </div>
+        <div class="product">
+          <img src="image/kuantafirfir.jpeg" alt="Kuanta Firfir">
+          <p>kuanta Firfir</p>
+        </div>
+      </div>
+      <a href="order.html" class="more-link">See more</a>
+    </div>
+  </div>
+  
+
+  <section class="menu-slider1">
+
+    <h2 class="menu-heading">Breakfast</h2>
+<button class="arrow left" onclick="scrollMenu(this, -1)">&#10094;</button>
+  
+  <div class="menu-track">  
+<div class="item" onclick="openDish()">
+      <img src="image/ful.jpeg" alt="Ful">
+      <div class="dish-name">Ful</div>
+      <div class="desc">Fava beans cooked with minced onions and tomatoes.</div>
+      <div class="price">$10.99</div>
+    </div>
+      
+      <div class="item" onclick="openDish()">
+      <img src="image/specialful.jpeg" alt="special ful">
+      <div class="dish-name">Special Ful</div>
+      <div class="desc">Ful with Egg </div>
+      <div class="price">$15.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/Chechebsa.jpg" alt="Chechebsa">
+      <div class="dish-name">Chechebsa</div>
+      <div class="desc">Toasted flatbread pieces heated with Berbere and spiced Ethiopian butter or olive oil (black Teff is available with $1.99)</div>
+      <div class="price">$10.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/specialchechebsa.jpeg" alt="special chechebsa">
+      <div class="dish-name">Special Chechebsa</div>
+      <div  class="desc">Chechebsa with Egg </div>
+      <div class="price"> $15.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/enkulalfirifiri.jpeg" alt="Enkulal Firfir">
+      <div class="dish-name">Enkulal Firfir</div>
+      <div class="desc">Scrambled eggs sauced with tomatoes, onions and jalapeños</div>
+      <div class="price">$11.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/enkulalbesiga.jpeg" alt="Enkulal Besiga">
+      <div class="dish-name">Enkulal Besiga</div>
+      <div class="desc">Scrambled eggs sauced with minced meat, tomatoes, onions, garlic and jalapeños</div>
+      <div class="price">$15.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/yetsomfirfir.jpeg" alt="YetSom Firfir">
+      <div class="dish-name">Yetsom Firfir</div>
+      <div class="desc">Shredded injera tossed in a vegetable sauce</div>
+      <div class="price">$12.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/feta.jpg" alt="Debo Firfir">
+      <div class="dish-name">Feta</div>
+      <div class="desc">Dabo firfir with tomato sos, enkulal firfir, enkulal sils with tomato sos, green paper and onion with home made yogurt</div>
+      <div class="price">$15.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/breakfastcombo.jpeg" alt="breakfast combo">
+      <div class="dish-name">Breakfast Combo </div>
+      <div class="desc">Chechebsa, Enkulal Firfir, Firfir, Ful</div>
+      <div class="price">$19.99</div>
+    </div>
+
+    <div class="item" onclick="openDish()">
+      <img src="image/pasta.jpeg" alt="Pasta">
+      <div class="dish-name">Pasta</div>
+      <div class="desc">Pasta dish made with intensely flavored sauce, but its also gluten-free, vegan, low-carb</div>
+      <div class="price">$12.99</div>
+    </div>
+  </div>
+    <button class="arrow right" onclick="scrollMenu(this, 1)">&#10095;</button>
+</section>
+
+    <section class="menu-slider23">
+  <h2 class="menu-heading">Lunch</h2>
+  <button class="arrow left" onclick="scrollMenu(this, -1)">&#10094;</button>
+  
+  <div class="menu-track">
+
+    <div class="item" onclick="openDish('lunch')">
+      <img src="image/tibs.jpg" alt="Tibs">
+      <div class="dish-name">Tibs</div>
+      <div class="desc">Tender tips of marinated tenderloin beef sauced with jalapeños, onions, garlic and a touch of rosemary</div>
+      <div class="price">$17.99</div>
+    </div>
+
+    <div class="item" onclick="openDish('lunch')">
+      <img src="image/derektibs.jpeg" alt="Derek Tibs">
+      <div class="dish-name">Derek Tibs</div>
+      <div class="desc">Tender shoulder cubes marinated in chef's special blends of Ethiopian seasoning and stir-fried with onions, garlic, jalapeños, rosemary and red wine</div>
+      <div class="price">$21.99</div>
+    </div>
+    
+    <div class="item" onclick="openDish('lunch')">
+      <img src="image/awazetibs.jpg" alt="Awaze Tibs">
+      <div class="dish-name">Awaze Tibs</div>
+      <div class="desc">Tender tips of marinated tenderloin beef sauced with berbere, jalapeños, onions, garlic and a touch of rosemary</div>
+      <div class="price">$19.99</div>
+    </div>
+
+    <div class="item" onclick="openDish('lunch')">
+      <img src="image/kuantafirfir.jpeg" alt="Kuanta Firfir">
+      <div class="dish-name">Kuanta Firfir</div>
+      <div class="desc">Seasoned Ethiopian style beef jerky cooked in light Berbere sauce and tossed with shredded injera</div>
+      <div class="price">$18.99</div>
+    </div>
+
+     <div class="item" onclick="openDish('lunch')">
+      <img src="image/dulet.jpg" alt="Dulet">
+      <div class="dish-name">Dulet</div>
+      <div class="desc">Chopped tripe, liver, and beef sautéed with spices and herbs</div>
+      <div class="price">$17.99</div>
+    </div>
+
+     <div class="item" onclick="openDish('lunch')">
+      <img src="image/keywot.jpeg" alt="Key Wot">
+      <div class="dish-name">Key Wot</div>
+      <div class="desc">Spicy beef stew slow-cooked in berbere sauce and seasoned butter</div>
+      <div class="price">$19.99</div>
+    </div>
+
+     <div class="item" onclick="openDish('lunch')">
+      <img src="image/shirobedst.jpeg" alt="Shiro Bedist">
+      <div class="dish-name">Shiro Bedist</div>
+      <div class="desc">Smooth, spiced chickpea stew simmered in seasoned oil or butter</div>
+      <div class="price">$15.99</div>
+    </div>
+
+     <div class="item" onclick="openDish('lunch')">
+      <img src="image/beyayinet.jpeg" alt="Beyayinetu">
+      <div class="dish-name">Beyayinetu</div>
+      <div class="desc">Assorted platter of vegetarian dishes served with injera.</div>
+      <div class="price">$17.99</div>
+    </div>
+
+     <div class="item" onclick="openDish('lunch')">
+      <img src="image/beyayinetu.jpg" alt="Moya Especial">
+      <div class="dish-name">Moya Especial</div>
+      <div class="desc">Tibs, Gomen Besiga, Kitfo, Special Kitfo, Key Wot, and Ayib.</div>
+      <div class="price">$34.99</div>
+    </div>
+   </div>
+ <button class="arrow right" onclick="scrollMenu(this, 1)">&#10095;</button>
+</section> 
+
+<h1  class="combination" >Combination</h1>
+
+    <section class="category-grid1" onclick="openDish('combination')">
+      <div class="combo">
+    <!-- Card 1 -->
+    <div class="category-card" >
+      <h2>Breakfast</h2>
+      <div class="products1">
+        <div class="product">
+          <img src="image/ful.jpeg" alt="Ful">
+          <p>Ful</p>
+        </div>
+        <div class="product">
+          <img src="image/Chechebsa.jpg" alt="Chechebsa">
+          <p>Chechebsa</p>
+        </div>
+        <div class="product">
+          <img src="image/enkulalfirifiri.jpeg" alt="Enkulal Firfir">
+          <p>Enkulal Firfir</p>
+        </div>
+        <div class="product">
+          <img src="image/feta.jpg" alt="Dabo Firfir">
+          <p>Dabo Firfir</p>
+        </div>
+        <div class="product">
+          <img src="image/yetsomfirfir.jpeg" alt="Yetsom Firfir">
+          <p>Yetsom Firfir</p>
+        </div>
+        <div class="product">
+          <img src="image/pasta.jpeg" alt="pasta">
+          <p>pasta</p>
+        </div>
+      </div>
+      <p>Breakfast choose Two for $17</p>
+      <a href="order.html#combination" class="more-link">Order now</a>
+    </div>
+      
+
+
+  <div class="category-card" >
+      <h2>Lunch</h2>
+      <div class="products1">
+        <div class="product">
+          <img src="image/yetsomfirfir.jpeg" alt="yetsomfirfir">
+          <p>Firfir</p>
+        </div>
+        <div class="product">
+          <img src="image/tibs.jpg" alt="Tibs">
+          <p>Tibs</p>
+        </div>
+        <div class="product">
+          <img src="image/dulet.jpg" alt="Dulet">
+          <p>Dulet</p>
+        </div>
+        <div class="product">
+          <img src="image/kuantafirfir.jpeg" alt="Kuanta Firfir">
+          <p>kuanta Firfir</p>
+        </div>
+        <div class="product">
+          <img src="image/yetashekitfo.jpeg" alt="yetashe kitfo">
+          <p>Yetahse Kitfo</p>
+        </div>
+        <div class="product">
+          <img src="image/kitfo1.png" alt="Kitfo">
+          <p>kitfo</p>
+        </div>
+      </div>
+      <p>Lunch choose Two for $25</p>
+      <a href="order.html#combination" class="more-link">Order now</a>
+      </div>
+      </div>
+ </section>
+
+    <section class="menu-slider12">
+    <h1 class="menu-heading">Vegetarian</h1>
+ <button class="arrow left" onclick="scrollMenu(this, -1)">&#10094;</button>
+    <div class="menu-track">
+    <div class="item" onclick="openDish('vegetarian')">
+        <img src="image/misirwot.jpg" alt="misir wort">
+    <div class="dish-name">Misir Wot </div>
+    <div class="desc">Red split lentils stewed with finely chopped onions, garlic, Berbere and Ethiopian herbs. </div>
+    <div class="price">$14.99</div> 
+    </div>
+
+    <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/KikAlicha.jpg" alt="kik Alicha">
+    <div class="dish-name"> Kik Alicha </div> 
+    <div class="desc"> Yellow split peas cooked with minced onions, garlic and a touch of turmeric and Ethiopian herbs.</div> 
+    <div class="price">  $14.99</div> 
+    </div>
+
+    <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/shiro.jpeg" alt="Shiro">
+    <div class="dish-name"> Shiro</div> 
+    <div class="desc"> Smooth, spiced chickpea stew simmered in seasoned oil or butter.</div>
+    <div class="price">$15.99</div>
+    </div>
+
+   <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/atakiltwat.webp" alt="Atkilt wot">
+   <div class="dish-name"> Atkilt Wot </div>
+   <div class="desc"> Cabbage, potato and carrot cooked with onion, ginger and garlic with a touch of turmeric.</div>
+   <div class="price">$12.99</div>
+   </div>
+
+   <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/Gomenwot.jpg" alt="Gomen Wot">
+   <div class="dish-name"> Gomen Wot </div>
+   <div class="desc">Sautéed collard greens cooked with onions, garlic, and spiced butter.</div>
+   <div class="price">$12.99</div>
+   </div>
+
+   <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/suffitfit.jpg" alt="Suf Fitfit">
+   <div class="dish-name"> Suf Fitfit</div> 
+   <div class="desc">Finely grounded sunflower seeds tossed in shredded injera, olive oil, jalapeños and onions.</div>
+   <div class="price">$10.99</div>
+   </div>
+
+   <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/shirofitfit.jpg" alt="Shiro Fitfit">
+   <div class="dish-name">Key Sir</div>
+   <div class="desc">Beets, carrots and potatoes cooked with minced onion and garlic.</div>
+   <div class="price">$12.99</div>
+   </div>
+
+   <div class="item" onclick="openDish('vegetarian')">
+    <img src="image/beyayinetu.jpg" alt="Beyayinetu">
+   <div class="dish-name"> Beyayinetu </div>
+   <div class="desc">Assorted platter of vegetarian dishes served with injera.</div>
+   <div class="price">$17.99</div>
+   </div>
+   </div>
+    <button class="arrow right" onclick="scrollMenu(this, 1)">&#10095;</button>
+</section>
+
+<section class="menu-slider1">
+  <h1 class="menu-heading">Sea Food</h1>
+  
+  <div class="menu-track">
+<div class="item" onclick="openDish('seafood')">
+<img src="image/Assadulet.jpg" alt="Assa Dullet">
+<div class="dish-name">Assa Dullet </div>
+<div class="desc">Spiced, sautéed fish mixed with herbs and aromatic spices.</div>
+<div class="price">$18.99</div>
+</div>
+
+<div class="item" onclick="openDish('seafood')">
+<img src="image/Assagulash.jpeg" alt="Assa Gulash">
+<div class="dish-name">Assa Gulash</div>
+<div class="desc">Fish simmered in a rich, spicy tomato-based sauce.</div>
+<div class="price"> $19.99</div>
+</div>
+
+<div class="item" onclick="openDish('seafood')">
+<img src="image/assakitfo.jpeg" alt="Assa kitfo">
+<div class="dish-name">Assa Kitfo</div>
+<div class="desc">Red fish tuna finely chopped and mixed with olive oil, cardamom and mitmita.</div>
+<div class="price">$20.99</div>
+</div>
+
+<div class="item" onclick="openDish('seafood')">
+<img src="image/yetasheassa.jpg" alt="yetasha Assa">
+<div class="dish-name">Yetashé Assa </div>
+<div class="desc">Smoked fish served with cubed kocho, fresh ayib (cheese), and sautéed gomen greens.</div>
+<div class="price"> $22.99</div>
+</div>
+</div>
+</section>
+
+<section class="menu-slider1">
+  <h1 class="menu-heading">Kitfo</h1>
+  <div class="menu-track">     
+<div class="item" onclick="openDish('kitfo')">
+<img src="image/kitfo1.png" alt="kitfo">
+<div class="dish-name">Kitfo</div>
+<div class="desc">Finely minced extra-lean cuts of prime beef mixed with seasoning and spicy Ethiopian butter and mitmita, served with Ethiopian feta cheese. (Can be served medium-rare, medium, or well-done)</div>
+<div class="price"> $20.99</div>
+</div>
+
+<div class="item" onclick="openDish('kitfo')">
+<img src="image/kesemzmamucha.jpeg" alt="Kesem Zmamuchia">
+<div class="dish-name">Kesem Zmamuchia</div>
+<div class="desc">Red split lentils mixed with seasoning and spicy Ethiopian butter and mitmita, served with Ethiopian feta cheese</div>
+<div class="price"> $19.99</div>
+</div>
+
+<div class="item" onclick="openDish('kitfo')">
+<img src="image/yetashekitfo.jpeg" alt="Yetashe Kitfo">
+<div class="dish-name">Yetashe Kitfo</div>
+<div class="desc">Finely minced extra-lean cuts of prime beef/fish mixed with seasoning and spicy Ethiopian butter and mitmita, served with Ethiopian feta cheese and kocho.</div>
+<div class="price">$22.99</div>
+</div>
+
+<div class="item" onclick="openDish('kitfo')">
+<img src="image/gomenkitfo.jpeg" alt="Gomen Kitfo">
+<div class="dish-name">Gomen Kitfo </div>
+<div class="desc">Finely minced collard mixed with seasoning and spicy Ethiopian butter and mitmita, served with Ethiopian feta cheese.</div>
+<div class="price">$20.99</div>
+</div>
+
+<div class="item" onclick="openDish('kitfo')">
+<img src="image/assakitfo.jpeg" alt="Assa kitfo">
+<div class="dish-name">Assa Kitfo</div>
+<div class="desc">Red fish tuna finely chopped and mixed with olive oil, cardamom, and mitmita.</div>
+<div class="price">$20.99</div>
+</div>
+
+<div class="item" onclick="openDish('kitfo')">
+<img src="image/Tibitkitfo.jpg" alt="Tibit Kitfo">
+<div class="dish-name">Tibit Kitfo</div>
+<div class="desc">Extra-spiced minced beef, similar to kitfo, slow-cooked with bold Ethiopian seasonings.</div>
+<div class="price">$20.99</div>
+</div>
+</div>
+</section>
+
+<section class="menu-slider1">
+  <h1 class="menu-heading">Extra</h1>
+  <div class="menu-track">
+
+<div class="item" onclick="openDish('extra')">
+    <img src="image/extraenjera.jpeg" alt="Extra Injera">
+<div class="dish-name">Extra Injera </div>
+<div class="price">$2.99</div>
+</div>
+
+<div class="item" onclick="openDish('extra')">
+    <img src="image/extrabread.webp" alt="Extra Bread">
+<div class="dish-name">Extra Bread </div>
+<div class="price">$1.99</div>
+</div>
+
+<div class="item" onclick="openDish('extra')">
+    <img src="image/Extrakocho.jpg" alt="Extra Kocho">
+<div class="dish-name">Extra Kocho </div>
+<div class="price">$4.99</div>
+</div>
+</div>
+</section>
+
+<section class="menu-slider23">
+  <h1 class="menu-heading">Beverage</h1>
+  <button class="arrow left" onclick="scrollMenu(this, -1)">&#10094;</button>
+  <div class="menu-track">
+    <div class="item" onclick="openDish('beverage')">
+<img src="image/coffeetraditional.jpg" alt="Full Jebena Buna">
+<div class="dish-name">Full Jebena Buna</div>
+<div class="price">$11.99</div>
+</div>
+
+ <div class="item" onclick="openDish('beverage')">
+<img src="image/buna.jpg" alt="Half Jebena Buna">
+<div class="dish-name">Half Jebena Buna</div>
+<div class="price">$5.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/coffee.webp" alt="Coffee">
+<div class="dish-name">Coffee</div>
+<div class="price">$3.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/macchiato.jpg" alt="Macchiato">
+<div class="dish-name">Macchiato</div>
+<div class="price">$3.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/specialtea.jpeg" alt="Special Tea">
+<div class="dish-name">Special Tea</div>
+<div class="price">$4.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/tea.jpeg" alt="Tea">
+<div class="dish-name">Tea</div>
+<div class="price">$2.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/keshirtea.jpeg" alt="Keshir Tea">
+<div class="dish-name">Keshir Tea</div>
+<div class="price">$4.00</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/latte.jpeg" alt="Latte">
+<div class="dish-name">Latte</div>
+<div class="price">$3.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+  <img src="image/homemadeyogurt.jpeg" alt="Home Made yogurt">
+<div class="dish-name">Small Ergo</div>
+<div class="price">$3.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+  <img src="image/homemadeyogurt.jpeg" alt="Home Made yogurt">
+<div class="dish-name">Large Ergo</div>
+<div class="price">$6.99</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/water.jpeg" alt="Water">
+<div class="dish-name">Water</div>
+<div class="price">$1.50</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/Soda.jpeg" alt="Soda">
+<div class="dish-name">Soda</div>
+<div class="price">$3.17</div>
+</div>
+
+<div class="item" onclick="openDish('beverage')">
+<img src="image/gas water.jpg" alt="Gas Water">
+<div class="dish-name">Gas Water</div>
+<div class="price">$2.49</div>
+</div>
+
+</div>
+<button class="arrow right" onclick="scrollMenu(this, 1)">&#10095;</button>
+ </section>
+
+ <section class="review-section">
+  <h1>Reviews</h1>
+  <div class="review-container">
+    
+    <!-- Yelp Review -->
+    <div class="review active">
+      <span class="source-label">⭐ Review from Yelp</span>
+      <h3>Amal A. <span class="stars">★★★★★</span></h3>
+      <span class="quote quote-left">"</span>
+      <p>Spicy and flavorful food delivered good with excellent customer service and the vibe is fancy.</p>
+      <span class="quote quote-right">"</span>
+    </div>
+
+    <!-- Wheree -->
+    <div class="review">
+      <span class="source-label">📍 Review from Wheree</span>
+      <h3>John D. <span class="stars">★★★★☆</span></h3>
+      <span class="quote quote-left">"</span>
+      <p>Great food and atmosphere. Would recommend to friends!</p>
+      <span class="quote quote-right">"</span>
+    </div>
+
+    <!-- DoorDash -->
+    <div class="review">
+      <span class="source-label">🚗 Review from DoorDash</span>
+      <h3>Sarah K. <span class="stars">★★★★☆</span></h3>
+      <span class="quote quote-left">"</span>
+      <p>TO GO was fast and food was still hot! Definitely ordering again.</p>
+      <span class="quote quote-right">"</span>
+    </div>
+
+  </div>
+</section>
+
+ <section id="contact" class="contact-section">
+    <h1>Have a Question?</h1>
+    <p>We're here to assist you with any questions or inquiries you may have.</p>
+
+    <div class="contact-form">
+      <form id="contactForm">
+        <div class="form-row">
+          <input type="text" id="firstName" placeholder="First name" required>
+          <input type="text" id="lastName" placeholder="Last name" required>
+        </div>
+        <div class="form-row">
+          <input type="email" id="email" placeholder="Email address" required>
+          <input type="tel" id="phone" placeholder="Phone number" required>
+        </div>
+        <textarea id="message" placeholder="Message" required></textarea>
+        <div class="btn-group">
+          <button type="submit" class="btn publish">Submit</button>
+        </div>
+        <p id="thankYouMessage">✅ Thank you for the feedback!</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="container">
+  <div class="reg">
+    <h2>Where Your Taste Buds Leads You</h2> 
+   
+  </div>
+
+  <div class="map">
+    <div id="mapid"></div>
+  </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="footer-section contact">
+      <h1 class="location">Location</h1>
+      <p>
+        3819 S George Mason Dr Suite A,<br>
+        Bailey's Crossroads, VA 22041, United States
+      </p>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="hour">
+      <h1>Hours</h1>
+      <p>Breakfast &amp; Brunch • Vegetarian<br>
+      <strong>Open:</strong> 08:00 AM – 01:00 PM (Monday-Friday)</br>
+                    08:00 AM -02:00Am (Saturday & Sunday)</p>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+  <div class="social">
+      <h1>Social Media</h1>
+      <a href="https://www.instagram.com/moyacafeandresturant?igsh=eXhlb3U2dzl4eTh0" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/174/174855.png" alt="Instagram" /></a>
+      <a href="https://www.tiktok.com/@moya.cafekitchen"  target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/3046/3046122.png" alt="TikTok" /></a>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="contact">
+      <h1>Contact Us</h1>
+      <a href="tel:+17038837230">+1 703-883-7230</a> 
+    </div>
+  </div>
+  
+    <div class="footer-section contact">
+<div class="contact">
+      <h1>Terms & Conditions</h1>
+       <a href="policy.html">Privacy Policy</a> 
+    </div>
+    </div>
+</footer>
+
+<div class="copyright">
+  <p>© 2025 Moya. All Rights Reserved.</p>
+</div>
+
+<!-- Cookie Consent Banner -->
+<div id="cookieConsent" class="cookie-banner">
+    <div class="cookie-content">
+        <p>We use cookies to enhance your experience, save your preferences, and analyze our traffic. 
+           <a href="policy.html">Learn more in our Privacy Policy</a></p>
+        <div class="cookie-buttons">
+            <button onclick="acceptCookies()" class="cookie-btn accept">Accept All</button>
+            <button onclick="acceptNecessaryOnly()" class="cookie-btn necessary">Necessary Only</button>
+            <button onclick="declineCookies()" class="cookie-btn decline">Decline</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="js/index.js"></script>
+<script src="cookies.js"></script>
+
+</body>
+</html>

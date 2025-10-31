@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - MOYA Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <!-- Admin Header -->
+  <!-- Admin Header - UPDATED WITH MOBILE MENU -->
+<header class="admin-header">
+    <div class="admin-nav">
+        <div class="logo"  style="display: flex; align-items: center;">
+            <!-- ADD THIS MOBILE MENU BUTTON -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
+            <img src="/image/logo.png" alt="MOYA Cafe Logo" onerror="this.src='/admin/images/placeholder.jpg'">
+            <span>Admin Dashboard</span>
+        </div>  
+
+  <!-- Add to admin header in admin.html -->
+<div class="admin-user">
+    <div id="admin-notification" class="notification-bell">
+        <div class="bell-icon" id="notification-bell">🔔</div>
+        <span class="notification-count" id="notification-count">0</span>
+        <div class="notification-dropdown" id="notification-dropdown">
+            <div class="notification-header">
+                <h4>New Orders</h4>
+                <button id="clear-notifications">Clear All</button>
+            </div>
+            <div class="notification-list" id="notification-list">
+                <!-- Notifications will appear here -->
+            </div>
+        </div>
+    </div>
+    <div class="admin-user">
+            <span id="admin-name">Administrator</span>
+            <button id="admin-logout" class="logout-btn">Logout</button>
+        </div>
+</div>
+</div>
+
+<!-- Notification Sound -->
+<audio id="notification-sound" preload="auto">
+    <source src="/admin/sounds/notification.mp3" type="audio/mpeg">
+</audio>
+</header>
+
+  <!-- Admin Sidebar -->
+  <nav class="admin-sidebar">
+    <ul class="admin-menu">
+      <li><a href="#dashboard" class="menu-item active" data-section="dashboard">📊 Dashboard</a></li>
+      <li><a href="#users" class="menu-item" data-section="users">👥 User Management</a></li>
+      <li><a href="#orders" class="menu-item" data-section="orders">📦 Order Management</a></li>
+      <li><a href="#menu" class="menu-item" data-section="menu">🍽️ Menu Management</a></li>
+      <li><a href="#analytics" class="menu-item" data-section="analytics">📈 Analytics</a></li>
+      <li><a href="#content" class="menu-item" data-section="content">📝 Content Management</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="admin-section active">
+      <h1>Dashboard Overview</h1>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Today's Orders</h3>
+          <p class="stat-number" id="today-orders">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Total Revenue</h3>
+          <p class="stat-number" id="total-revenue">$0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Active Users</h3>
+          <p class="stat-number" id="active-users">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Menu Items</h3>
+          <p class="stat-number" id="menu-items">0</p>
+        </div>
+      </div>
+      
+      <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <div id="recent-activity-list" class="activity-list">
+          <!-- Recent activities will be populated here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- User Management Section -->
+    <section id="users" class="admin-section">
+      <div class="section-header">
+        <h1>User Management</h1>
+        <button class="btn-primary" id="export-users">Export Users</button>
+      </div>
+
+      <!-- User Search and Create -->
+      <div class="user-management-header">
+        <div class="search-users">
+          <input type="text" id="search-users" placeholder="Search users...">
+          <button class="btn-secondary" onclick="admin.searchUsers()">Search</button>
+        </div>
+        <button class="btn-primary" onclick="admin.openUserRegistration()">+ Create New User</button>
+      </div>
+
+      <!-- Users Table -->
+      <div class="users-table-container">
+        <table class="admin-table" id="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Join Date</th>
+              <th>Orders</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <!-- Users will be populated here -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Admin Accounts Section -->
+      <div class="admin-management">
+        <h3>Admin Accounts</h3>
+        <div id="admin-accounts-list">
+          <!-- Admin accounts will be listed here -->
+        </div>
+        <button class="btn-secondary" onclick="admin.viewAdminAccounts()">Manage Admin Accounts</button>
+      </div>
+    </section>
+
+    <!-- Order Management Section -->
+    <section id="orders" class="admin-section">
+      <div class="section-header">
+        <h1>Order Management</h1>
+        <div class="filter-controls">
+          <select id="order-status-filter">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="preparing">Preparing</option>
+            <option value="ready">Ready for Pickup</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <input type="date" id="order-date-filter">
+          <button class="btn-secondary" id="reset-filters">Reset</button>
+        </div>
+      </div>
+      <div class="orders-table-container">
+        <table class="admin-table" id="orders-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Order Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <!-- Orders will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Menu Management Section -->
+    <section id="menu" class="admin-section">
+      <div class="section-header">
+        <h1>Menu Management</h1>
+        <button class="btn-primary" id="add-menu-item">+ Add Menu Item</button>
+      </div>
+      <div class="menu-items-grid" id="menu-items-grid">
+        <!-- Menu items will be populated here -->
+      </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <!-- Analytics Section -->
+<div id="analytics" class="admin-section">
+    <div class="section-header">
+        <h2>Analytics Dashboard</h2>
+        <div class="period-selector">
+            <select id="analytics-period" class="form-select">
+                <option value="today">Today</option>
+                <option value="week" selected>This Week</option>
+                <option value="month">This Month</option>
+                <option value="quarter">This Quarter</option>
+                <option value="year">This Year</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Analytics Summary Cards -->
+    <div class="analytics-cards">
+        <div class="analytics-card">
+            <div class="card-icon revenue">💰</div>
+            <div class="card-content">
+                <h3 id="total-revenue-card">$0.00</h3>
+                <p>Total Revenue</p>
+            </div>
+        </div>
+        <div class="analytics-card">
+            <div class="card-icon orders">📦</div>
+            <div class="card-content">
+                <h3 id="total-orders-card">0</h3>
+                <p>Total Orders</p>
+            </div>
+        </div>
+        <div class="analytics-card">
+            <div class="card-icon today">📅</div>
+            <div class="card-content">
+                <h3 id="today-orders-card">0</h3>
+                <p>Today's Orders</p>
+            </div>
+        </div>
+        <div class="analytics-card">
+            <div class="card-icon customers">👥</div>
+            <div class="card-content">
+                <h3 id="unique-customers-card">0</h3>
+                <p>Unique Customers</p>
+            </div>
+        </div>
+        <div class="analytics-card">
+            <div class="card-icon average">📊</div>
+            <div class="card-content">
+                <h3 id="avg-order-value-card">$0.00</h3>
+                <p>Avg Order Value</p>
+            </div>
+        </div>
+        <div class="analytics-card">
+            <div class="card-icon menu">🍽️</div>
+            <div class="card-content">
+                <h3 id="menu-items-card">0</h3>
+                <p>Menu Items</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="charts-grid">
+        <!-- Revenue Trend Chart -->
+        <div class="chart-container large">
+            <div class="chart-header">
+                <h3>Revenue Trend</h3>
+                <span class="chart-subtitle">Weekly revenue performance</span>
+            </div>
+            <canvas id="revenue-chart"></canvas>
+        </div>
+
+        <!-- Top Items Chart -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>Popular Items</h3>
+                <span class="chart-subtitle">Most ordered menu items</span>
+            </div>
+            <canvas id="items-chart"></canvas>
+        </div>
+
+        <!-- Order Status Distribution -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>Order Status</h3>
+                <span class="chart-subtitle">Current order distribution</span>
+            </div>
+            <canvas id="status-chart"></canvas>
+        </div>
+
+        <!-- Customer Analytics -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>Customer Analytics</h3>
+                <span class="chart-subtitle">New vs Repeat customers</span>
+            </div>
+            <canvas id="customer-chart"></canvas>
+        </div>
+    </div>
+
+    <!-- Additional Analytics Data -->
+    <div class="analytics-details">
+        <div class="detail-card">
+            <h4>Peak Hours</h4>
+            <div class="detail-content">
+                <div class="peak-hour">
+                    <span class="time">12:00 PM - 2:00 PM</span>
+                    <span class="orders">45 orders</span>
+                </div>
+                <div class="peak-hour">
+                    <span class="time">6:00 PM - 8:00 PM</span>
+                    <span class="orders">38 orders</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="detail-card">
+            <h4>Popular Categories</h4>
+            <div class="detail-content">
+                <div class="category-item">
+                    <span class="category-name">Lunch</span>
+                    <span class="percentage">35%</span>
+                </div>
+                <div class="category-item">
+                    <span class="category-name">Breakfast</span>
+                    <span class="percentage">25%</span>
+                </div>
+                <div class="category-item">
+                    <span class="category-name">Kitfo</span>
+                    <span class="percentage">20%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Content Management Section -->
+    <section id="content" class="admin-section">
+      <h1>Content Management</h1>
+      <div class="content-tabs">
+        <button class="tab-btn active" data-tab="homepage">Homepage</button>
+        <button class="tab-btn" data-tab="reviews">Reviews</button>
+        <button class="tab-btn" data-tab="promotions">Promotions</button>
+      </div>
+      
+      <div class="tab-content active" id="homepage-tab">
+        <h3>Homepage Content</h3>
+        <form id="homepage-form">
+          <div class="form-group">
+            <label>Hero Slider Images</label>
+            <div id="hero-images-container">
+              <!-- Hero images will be populated here -->
+            </div>
+            <button type="button" class="btn-secondary" id="add-hero-image">+ Add Image</button>
+          </div>
+          <div class="form-group">
+            <label>Featured Categories</label>
+            <div id="featured-categories">
+              <!-- Featured categories will be populated here -->
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </div>
+
+      <div class="tab-content" id="reviews-tab">
+        <h3>Manage Reviews</h3>
+        <div id="reviews-list">
+          <!-- Reviews will be populated here -->
+        </div>
+      </div>
+
+     <!-- In the promotions tab -->
+<div class="tab-content" id="promotions-tab">
+    <h3>Promotions & Offers</h3>
+    
+    <!-- Create Promotion Form -->
+    <form id="promotion-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Promotion Image</label>
+            <div class="image-upload-container">
+                <div class="image-preview" id="promotion-image-preview">
+                    <span>No image selected</span>
+                </div>
+                <input type="file" id="promotion-image" class="image-upload" accept="image/*" style="display: none;">
+                <button type="button" class="btn-secondary" onclick="document.getElementById('promotion-image').click()">
+                    Select Image
+                </button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Promotion Title</label>
+            <input type="text" id="promotion-title" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="promotion-desc" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Discount (%)</label>
+            <input type="number" id="promotion-discount" min="0" max="100" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Valid Until</label>
+            <input type="date" id="promotion-expiry">
+        </div>
+        
+        <button type="submit" class="btn-primary">Create Promotion</button>
+    </form>
+    
+    <!-- Active Promotions -->
+    <div id="active-promotions">
+        <!-- Active promotions will be listed here -->
+    </div>
+</div>
+    </section>
+  </main>
+
+  <!-- Modals -->
+  <div id="menu-item-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modal-title">Add Menu Item</h2>
+      <form id="menu-item-form">
+        <input type="hidden" id="menu-item-id">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="item-name" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="item-desc" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Price ($)</label>
+          <input type="number" id="item-price" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="item-category" required>
+            <option value="">Select Category</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Sea Food">Sea Food</option>
+            <option value="Kitfo">Kitfo</option>
+            <option value="Beverage">Beverage</option>
+            <option value="Extra">Extra</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" id="item-image">
+        </div>
+        <div class="form-group">
+          <label>Availability</label>
+          <select id="item-available">
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Save Item</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="order-detail-modal" class="modal">
+    <div class="modal-content large">
+      <span class="close">&times;</span>
+      <h2>Order Details</h2>
+      <div id="order-detail-content">
+        <!-- Order details will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- User Registration Modal -->
+  <div id="user-registration-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="admin.closeUserRegistration()">&times;</span>
+      <h2>Create New User Account</h2>
+      <form id="user-registration-form">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="reg-email" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="reg-phone">
+        </div>
+        <div class="form-group">
+          <label>User Role</label>
+          <select id="reg-role" required>
+            <option value="customer">Customer</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Administrator</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Initial Password</label>
+          <input type="password" id="reg-password" required minlength="6">
+          <small>Minimum 6 characters</small>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="reg-confirm-password" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Create User Account</button>
+          <button type="button" class="btn-secondary" onclick="admin.closeUserRegistration()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+            <h3 id="confirmation-title">Confirm Action</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p id="confirmation-message">Are you sure you want to proceed?</p>
+        </div>
+        <div class="modal-footer">
+            <button id="confirmation-cancel" class="btn-secondary">Cancel</button>
+            <button id="confirmation-confirm" class="btn-danger">Confirm</button>
+        </div>
+    </div>
+</div>
+<button onclick="admin.ordersModule.testExpiredOrder()">Test Notification</button>
+
+<!-- Add this before the closing body tag -->
+<script src="/admin/admin-pagination.js"></script>
+<script src="/admin/admin-utils.js"></script>
+<script src="/admin/admin-auth.js"></script>
+<script src="/admin/admin-users.js"></script>
+<script src="/admin/admin-orders.js"></script>
+<script src="/admin/admin-menu.js"></script>
+<script src="/admin/admin-analytics.js"></script>
+<script src="/admin/admin-content.js"></script>
+<script src="/admin/admin-core.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        window.admin = new MoyaAdmin();
+        admin.init();
+    });
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+</body>
+</html>

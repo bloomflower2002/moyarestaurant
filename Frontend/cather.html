@@ -1,0 +1,165 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cathering</title>
+   
+  <link rel="stylesheet" href="css/cather.css">
+</head>
+<body>
+
+   <header>
+    <div class="logo">
+      <img src="image/logo.png" alt="MOYA Cafe Logo">
+    </div>
+    <div class="icons">
+     <a href="signin.html"><img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User"></a>
+    </div>
+  </header>
+
+  <section class="catering-section">
+    <div class="intro-text">
+      <p>
+     Share your celebration details with us, and we'll craft a personalized catering experience that exceeds your expectations.
+ For events larger than 200 guests, 
+	 kindly include your specific requirements in the notes section below
+      </p>
+    </div>
+
+    <div class="catering-container">
+      <!-- Left side images -->
+      <div class="image-gallery">
+        <img src="image/view.png" alt="Catering Food 1">
+       
+      </div>
+
+      <!-- Right side form -->
+      <div class="form-box">
+        <form id="cateringForm">
+          <!-- Basic info -->
+          <label for="name">Full Name (required):</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Barkot Tefera" required>
+
+          <label for="phone">Phone (required):</label>
+          <input type="tel" id="phone" name="phone" placeholder="e.g. (123) 956-7890" required>
+
+          <!-- Catering details -->
+          <label for="people">Number of People (required):</label>
+          <select id="people" name="people" required>
+            <option value="">Select...</option>
+            <option>more than 10 People</option>
+            <option>more than 20 People</option>
+            <option>more than 50 People</option>
+            <option>more than 100 People</option>
+            <option>more than 200+ People</option>
+          </select>
+
+          <label for="date">Select Date (required):</label>
+          <input type="date" id="date" name="date" required>
+
+          <label for="time">Select Time (required):</label>
+          <select id="time" name="time" required>
+            <option value="">Select...</option>
+            <option>10:00 AM</option>
+            <option>11:30 AM</option>
+            <option>1:00 PM</option>
+            <option>3:00 PM</option>
+            <option>6:00 PM</option>
+            <option>8:00 PM</option>
+          </select>
+
+          <label for="occasion">Select Occasion (required):</label>
+          <select id="occasion" name="occasion" required>
+            <option value="">Select...</option>
+            <option>Birthday</option>
+            <option>Wedding</option>
+            <option>Corporate Event</option>
+            <option>Graduation</option>
+            <option>Other</option>
+          </select>
+
+          <label for="service">Select Type Of Catering Service (required):</label>
+          <select id="service" name="service" required>
+            <option value="">Select...</option>
+            <option>Full Service Catering</option>
+            <option>Buffet Style</option>
+            <option>Family Style</option>
+            <option>Pickup / Delivery</option>
+          </select>
+
+          <!-- Policy Agreement -->
+          <div class="policy-agreement">
+            <input type="checkbox" id="policy-agree" name="policy-agree" required>
+            <label for="policy-agree">
+              I have read and agree to the 
+              <a href="policy.html" target="_blank">Privacy Policy & Terms and Conditions</a>
+              (required)
+            </label>
+          </div>
+
+          <!-- Marketing Checkbox -->
+          <div class="checkbox">
+            <input type="checkbox" id="marketing" name="marketing">
+            <label for="marketing">
+              I agree to receive marketing text messages (optional)
+            </label>
+          </div>
+            
+          <!-- Submit Button -->
+          <button type="submit">Submit Catering Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="footer-section contact">
+      <h1 class="location">Location</h1>
+      <p>
+        3819 S George Mason Dr Suite A,<br>
+        Bailey's Crossroads, VA 22041, United States
+      </p>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="hour">
+      <h1>Hours</h1>
+      <p>Breakfast &amp; Brunch • Vegetarian<br>
+      <strong>Open:</strong> 08:00 AM – 01:00 PM (Monday-Friday)</br>
+                    08:00 AM -02:00Am (Saturday & Sunday)</p>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="social">
+      <h1>Social Media</h1>
+      <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/174/174855.png" alt="Instagram" /></a>
+      <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/3046/3046122.png" alt="TikTok" /></a>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="contact">
+      <h1>Contact Us</h1>
+      <a href="tel:+17038837230">+1 703-883-7230</a> 
+    </div>
+  </div>
+  
+    <div class="footer-section contact">
+<div class="contact">
+      <h1>Terms & Conditions</h1>
+       <a href="policy.html">Privacy Policy</a> 
+    </div>
+    </div>
+</footer>
+<div class="copyright">
+  <p>© 2025 Moya. All Rights Reserved.</p>
+</div>
+
+  <script src="js/cather.js"></script>
+ 
+</body>
+</html>

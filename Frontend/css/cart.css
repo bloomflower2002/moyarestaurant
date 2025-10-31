@@ -1,0 +1,476 @@
+ body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #fafafa;
+    color: #333;
+  }
+
+   /* Header Styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  background: transparent;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  z-index: 1000;
+  height: 60px;
+}
+
+header.scrolled {
+  background: rgba(182, 145, 145, 0.95);
+  backdrop-filter: blur(6px);
+}
+
+/* Logo */
+header .logo img {
+  height: 80px;
+  transition: transform 0.3s ease;
+}
+
+header .logo img:hover {
+  transform: scale(1.05);
+}
+
+/* Icons Container - FIXED: Remove extra gap */
+header .icons {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Reduced from 25px */
+}
+
+/* Cart Icon */
+header .icons a {
+  text-decoration: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1px;
+}
+
+header .icons img {
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+header .icons img:hover {
+  transform: scale(1.1);
+}
+
+.right{
+  display: flex;
+  justify-content: end;
+  gap:28px;
+}
+
+/* Cart Count Badge */
+#cart-count {
+  background: #e11d48;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute; /* Change this */
+  top: 1px; /* Position above the icon */
+  right: -2px; /* Position to the right of the icon */
+  min-width: 9px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+#cart-count:empty {
+  display: none;
+}
+
+/* Sign In Icon - FIXED: Remove duplicate container */
+.icons svg {
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 5px;
+  border: 1px solid #333;
+}
+.icons svg:hover {
+  transform: scale(1.1);
+}
+.icon-wrapper {
+  display: inline-block;
+  padding: 5px;
+  border: 1px solid #333;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon-wrapper:hover {
+  transform: scale(1.1);
+}
+
+
+/* Profile Section Styles for Order Page - Matching Home Page */
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Profile Dropdown Styles - Matching Home Page */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-avatar-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  margin: 0;
+}
+
+.user-avatar-container:hover {
+  background: rgba(182, 145, 145, 0.1);
+}
+
+.user-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.user-avatar-container:hover .user-avatar-circle {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.profile-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(182,145,145,0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  min-width: 260px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  z-index: 1000;
+  margin-top: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.dropdown-content.show {
+  display: block;
+  animation: dropdownFadeIn 0.3s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.dropdown-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 10px;
+  border: 2px solid rgba(255,255,255,0.3);
+}
+
+.dropdown-user-info {
+  flex: 1;
+}
+
+.dropdown-username {
+  font-weight: 600;
+  color: white;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+.dropdown-welcome {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  margin: 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dropdown-item:hover {
+  background: rgba(199,30,30,0.7);
+  color: white;
+}
+
+.dropdown-item i {
+  width: 14px;
+  text-align: center;
+  margin-right: 10px;
+  opacity: 0.8;
+}
+
+.dropdown-item:hover i {
+  opacity: 1;
+}
+
+.logout-item {
+  color: #ff6b6b;
+}
+
+.logout-item:hover {
+  background: rgba(220, 53, 69, 0.3);
+  color: #ff6b6b;
+}
+
+/* Sign-in Icon Styles - Matching Home Page */
+#signin-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  transition: all 0.3s ease;
+}
+
+#signin-icon:hover {
+  background: rgba(199,30,30,0.7);
+  border-radius: 4px;
+}
+
+#signin-icon svg {
+  height: 24px;
+  width: 24px;
+  transition: transform 0.2s ease;
+}
+
+#signin-icon:hover svg {
+  transform: scale(1.1);
+}
+
+/* Remove duplicate/conflicting styles */
+.icons svg {
+  display: block; /* Change from 'none' to 'block' */
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+}
+
+/* Remove conflicting hover styles */
+.sign:hover {
+  background: none; /* Remove the home page specific hover */
+  border-radius: 0;
+  padding: 0;
+}
+
+/* Ensure proper header spacing */
+header .icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Make sure cart and profile/sign-in have consistent spacing */
+header .icons a {
+  text-decoration: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin:0;
+  padding: 0 25px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-avatar-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .dropdown-content {
+    min-width: 240px;
+    right: -10px;
+  }
+  
+  #signin-icon svg {
+    height: 20px;
+    width: 20px;
+  }
+  
+  header .icons {
+    gap: 10px;
+  }
+}
+  header.scrolled {
+    background: rgba(182, 145, 145, 0.95);
+    backdrop-filter: blur(6px);
+  }
+  header .logo img { height: 80px; }
+  header .icons { display: flex; align-items: center; gap: 20px; }
+  header .icons img { height: 24px; cursor: pointer; }
+
+  .cart-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .cart-section h1 { text-align: center; margin-bottom: 20px; }
+
+  .cart-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  .cart-item img {
+    width: 100px;
+    border-radius: 8px;
+    margin-right: 20px;
+    object-fit: cover;
+  }
+  .details { flex: 1; }
+  .details h2 { margin: 0; font-size: 18px; }
+  .details .desc { font-size: 14px; color: #555; margin: 4px 0; }
+  .quantity {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  .quantity button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: #eee;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .quantity span { margin: 0 10px; font-size: 16px; }
+  .price { font-weight: bold; }
+  .remove {
+    border: none;
+    background: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .instructions { margin: 20px 0; }
+  .instructions textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  .instructions .note {
+    font-size: 12px;
+    color: gray;
+    margin-top: 5px;
+  }
+
+  .pickup-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f1f5f9;
+    border-left: 5px solid #c52b52;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .summary {
+    text-align: right;
+    margin-top: 20px;
+  }
+  .summary p, .summary h2 { margin: 5px 0; }
+  .checkout {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border: none;
+    background: rgba(143, 117, 117, 0.95);
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }

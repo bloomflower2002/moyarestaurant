@@ -1,0 +1,348 @@
+ /* ===== Global ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #fafafa;
+  color: #222;
+}
+
+/* ===== Header ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  background: transparent;
+  transition: background 0.3s ease;
+  z-index: 1000;
+  height: 50px;
+  padding-top: 10px;
+}
+header.scrolled {
+  background: rgba(182,145,145,0.95);
+  backdrop-filter: blur(6px);
+}
+header .logo img {
+  height: 80px;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-icons a {
+  text-decoration: none;
+  color: #6d4c41;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s;
+}
+.nav-icons a:hover {
+  color: #8d6e63;
+}
+
+/* ===== Profile Container ===== */
+.profile-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.profile-container h1 {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  margin-bottom: 30px;
+}
+
+/* ===== Profile Info ===== */
+.profile-info {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+.avatar {
+  text-align: center;
+  margin-right: 20px;
+}
+.avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #e0e0e0;
+  border: 3px solid #f5f5f5;
+}
+.details h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: #424242;
+}
+.details p {
+  color: #757575;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.edit-btn,
+.photo-btn,
+.logout-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.edit-btn  { 
+  background: #3366cc; 
+}
+.edit-btn:hover {
+  background: #2a55a8;
+}
+.photo-btn { 
+  background: #4a7; 
+}
+.photo-btn:hover {
+  background: #3c6;
+}
+.logout-btn {
+  display: block;
+  width: 100%;
+  background: crimson;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.logout-btn:hover {
+  background: #b71c1c;
+}
+
+/* ===== Forms ===== */
+.hidden {
+  display: none !important;
+}
+.profile-info form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.profile-info input[type="text"],
+.profile-info input[type="email"],
+.profile-info input[type="file"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+#save-details, #save-avatar {
+  padding: 8px 16px;
+  background: #6d4c41;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+#save-details:hover, #save-avatar:hover {
+  background: #5d4037;
+}
+
+/* ===== Loyalty Section ===== */
+.loyalty-section {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.loyalty-section h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #424242;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.loyalty-card {
+  background: linear-gradient(135deg, #6d4c41, #a1887f);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.loyalty-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.loyalty-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.stat-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+.progress-container {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  height: 12px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background-color: #ffd54f;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.demo-btn {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #ffd54f;
+  color: #6d4c41;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+.demo-btn:hover {
+  background-color: #ffca28;
+}
+.reward-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+.reward-message i {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* ===== Other Sections ===== */
+.saved-orders,
+.preferences {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.saved-orders h2, 
+.preferences h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #424242;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.saved-orders ul {
+  list-style-type: none;
+  padding: 0;
+}
+.saved-orders li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #757575;
+}
+.saved-orders li:last-child {
+  border-bottom: none;
+}
+.preferences label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.preferences input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #e6ebf9;
+  margin-top: 40px;
+}
+
+/* ===== Notifications ===== */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #6d4c41;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 600px) {
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  .avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  .action-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .loyalty-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  header {
+    flex-direction: column;
+    gap: 15px;
+    height: auto;
+    padding: 10px;
+  }
+  .nav-icons {
+    gap: 15px;
+  }
+}
