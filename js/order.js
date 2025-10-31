@@ -113,18 +113,6 @@ function logout() {
     // Optional: Clear session ID if you want fresh session on next visit
     // localStorage.removeItem('moya_session_id');
     
-    fetch('http://localhost:3000/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include'
-    }).catch(err => console.log('Logout API call failed:', err));
-    
-    updateUIForLoggedOutUser();
-    
-    // Redirect to home page after a brief delay
-    setTimeout(() => {
-        window.location.href = '/';
-    }, 500);
-}
 
 // Enhanced click outside to close dropdown
 document.addEventListener('click', function(event) {

@@ -1,27 +1,24 @@
-// Load total from cart and initialize payment
-// Stripe setup
-const stripePublicKey = 'pk_test_51SKqaCCb8bUrtyvze9mR2Gmo0skAquUf2YxNpp7NwFfwtDWRdzmj75SLMHG7gfkyScZngYaBDuAsQpnLRsGSWaEr00FdeQMUVz';
-
-// Initialize Stripe
-const stripe = Stripe(stripePublicKey);
-let elements, cardElement;
+// Load total from cart and initialize payment (Static Version)
+// Stripe is removed since we can't process real payments without backend
 
 function initializePayment() {
-    console.log('💰 Initializing payment system...');
+    console.log('💰 Initializing payment system (Static Version)...');
     loadCartTotal();
     setupPaymentMethods();
     setupEventListeners();
     setupEnhancedEventListeners();
     loadOrderSummary();
-    setupStripeElements();
 }
 
 // Load total from cart
 function loadCartTotal() {
-    const total = localStorage.getItem('cartTotal') || '0.00';
-    const totalAmount = parseFloat(total).toFixed(2);
+    const cart = getCart();
+    const subtotal = calculateCartSubtotal(cart);
+    const tax = subtotal * 0.085; // 8.5% tax
+    const total = subtotal + tax;
+    const totalAmount = total.toFixed(2);
     
-    console.log('📊 Cart total loaded:', totalAmount);
+    console.log('📊 Cart total calculated:', totalAmount);
     
     // Update all total displays
     const amountElement = document.getElementById('amount');
@@ -32,14 +29,32 @@ function loadCartTotal() {
     updatePaymentButton(totalAmount);
     updatePaymentMethodLabels(totalAmount);
     
+    // Store for later use
+    localStorage.setItem('cartTotal', totalAmount);
+    localStorage.setItem('cartSubtotal', subtotal.toFixed(2));
+    localStorage.setItem('cartTax', tax.toFixed(2));
+    
     return totalAmount;
+}
+
+// Get cart from localStorage
+function getCart() {
+    const cart = localStorage.getItem('moya_cart');
+    return cart ? JSON.parse(cart) : [];
+}
+
+// Calculate cart subtotal
+function calculateCartSubtotal(cart) {
+    return cart.reduce((sum, item) => {
+        return sum + (parseFloat(item.price) * parseInt(item.quantity));
+    }, 0);
 }
 
 // Update payment button with total
 function updatePaymentButton(amount) {
     const payButton = document.getElementById('payButton');
     if (payButton) {
-        payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${amount}`;
+        payButton.innerHTML = `<i class="fas fa-lock"></i> Complete Order $${amount}`;
     }
 }
 
@@ -93,93 +108,10 @@ function handlePaymentMethodChange(method) {
     if (payButton) {
         payButton.style.display = 'flex';
         if (method === 'card') {
-            payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${totalAmount}`;
+            payButton.innerHTML = `<i class="fas fa-lock"></i> Complete Order $${totalAmount}`;
         } else {
-            payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${totalAmount} with ${method.charAt(0).toUpperCase() + method.slice(1)}`;
+            payButton.innerHTML = `<i class="fas fa-lock"></i> Complete Order $${totalAmount} with ${method.charAt(0).toUpperCase() + method.slice(1)}`;
         }
-    }
-}
-
-// ========== STRIPE ELEMENTS ==========
-function setupStripeElements() {
-    const container = document.getElementById('payment-element');
-    if (!container) {
-        console.warn('⚠️ Stripe container (#payment-element) not found');
-        return;
-    }
-
-    console.log('💳 Setting up Stripe Elements...');
-    elements = stripe.elements();
-    cardElement = elements.create('card', {
-        style: {
-            base: { fontSize: '16px', color: '#32325d', '::placeholder': { color: '#a0aec0' } },
-            invalid: { color: '#fa755a' },
-        },
-    });
-    cardElement.mount('#payment-element');
-    console.log('✅ Stripe Elements mounted');
-}
-
-// ========== STRIPE PAYMENT ==========
-async function processStripePayment(totalAmount) {
-    console.log('💳 Stripe payment for $' + totalAmount);
-    const payButton = document.getElementById('payButton');
-
-    if (!validateForm()) {
-        alert('Please fill in all required fields.');
-        return;
-    }
-
-    try {
-        payButton.disabled = true;
-        payButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
-
-        const amountCents = Math.round(parseFloat(totalAmount) * 100);
-
-        console.log('💰 Creating payment intent for:', amountCents + ' cents');
-        
-        const res = await fetch('/api/create-payment-intent', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount: amountCents, currency: 'usd' })
-        });
-
-        console.log('📡 Stripe API response status:', res.status, res.statusText);
-
-        // Check if response is JSON before parsing
-        const contentType = res.headers.get('content-type');
-        let data;
-        
-        if (contentType && contentType.includes('application/json')) {
-            data = await res.json();
-        } else {
-            const textResponse = await res.text();
-            console.error('❌ Stripe API returned non-JSON response:', textResponse.substring(0, 200));
-            
-            if (res.status === 404) {
-                throw new Error('Payment service unavailable (Stripe endpoint not found). Please try cash payment.');
-            } else {
-                throw new Error('Payment service temporarily unavailable. Please try again later.');
-            }
-        }
-
-        if (!data.clientSecret) throw new Error('Invalid Stripe response');
-
-        const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
-            payment_method: { card: cardElement }
-        });
-
-        if (error) throw new Error(error.message);
-        if (paymentIntent.status === 'succeeded') {
-            console.log('✅ Stripe success');
-            await processPayment('card', totalAmount);
-        }
-    } catch (err) {
-        alert('Payment failed: ' + err.message);
-        console.error('❌ Stripe payment error:', err);
-    } finally {
-        payButton.disabled = false;
-        payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${totalAmount}`;
     }
 }
 
@@ -206,12 +138,11 @@ function setupEventListeners() {
         });
     }
     
-    // ZIP code formatting - IMPROVED
+    // ZIP code formatting
     const zipInput = document.getElementById('zipCode');
     if (zipInput) {
         zipInput.addEventListener('input', e => {
             let value = e.target.value.replace(/\D/g, '');
-            // Only allow 5 digits for basic ZIP code
             if (value.length > 5) value = value.substring(0, 5);
             e.target.value = value;
         });
@@ -244,14 +175,10 @@ function setupEventListeners() {
             
             console.log('🔍 Validating form...');
             if (validateForm()) { 
-                console.log('✅ Form validation passed, processing payment...');
+                console.log('✅ Form validation passed, processing order...');
                 
-                // Route to appropriate payment processor
-                if (selectedMethod === 'card') {
-                    await processStripePayment(totalAmount);
-                } else {
-                    await processPayment(selectedMethod, totalAmount);
-                }
+                // Process order (static version - no real payment)
+                await processOrder(selectedMethod, totalAmount);
             } else {
                 console.log('❌ Form validation failed');
             }
@@ -262,7 +189,7 @@ function setupEventListeners() {
 
     // Listen for cart updates from other tabs
     window.addEventListener('storage', (e) => {
-        if (e.key === 'cartTotal') {
+        if (e.key === 'moya_cart') {
             loadCartTotal();
         }
     });
@@ -329,9 +256,9 @@ function validateForm() {
             return false;
         }
 
-        // Validate ZIP code format for delivery - SIMPLIFIED
+        // Validate ZIP code format for delivery
         if (deliveryZip) {
-            const zipRegex = /^\d{5}$/; // Only 5 digits required
+            const zipRegex = /^\d{5}$/;
             if (!zipRegex.test(deliveryZip.replace(/\s/g, ''))) {
                 console.log('❌ Invalid delivery ZIP code format:', deliveryZip);
                 alert('Please enter a valid 5-digit ZIP code');
@@ -344,7 +271,6 @@ function validateForm() {
     const emailInput = document.getElementById('email');
     const email = emailInput?.value?.trim();
     
-    // Only validate email if the field exists
     if (emailInput) {
         if (!email) {
             console.log('❌ Missing email');
@@ -389,8 +315,7 @@ function validateForm() {
         document.getElementById('zipCodeError')?.style?.setProperty('display', 'block', 'important');
         isValid = false;
     } else if (zipInput && zip) {
-        // Validate ZIP code format only if field exists and has value - SIMPLIFIED
-        const zipRegex = /^\d{5}$/; // Only require 5 digits
+        const zipRegex = /^\d{5}$/;
         if (!zipRegex.test(zip.replace(/\s/g, ''))) {
             console.log('❌ Invalid billing ZIP code format:', zip);
             document.getElementById('zipCodeError')?.style?.setProperty('display', 'block', 'important');
@@ -447,17 +372,6 @@ function validateForm() {
                 document.getElementById('expiryDateError')?.style?.setProperty('display', 'block', 'important');
                 document.getElementById('expiryDateError').textContent = 'Please use MM/YY format';
                 isValid = false;
-            } else {
-                // Validate expiry date is not in the past
-                const [month, year] = expiry.split('/');
-                const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
-                const currentDate = new Date();
-                if (expiryDate < currentDate) {
-                    console.log('❌ Card has expired');
-                    document.getElementById('expiryDateError')?.style?.setProperty('display', 'block', 'important');
-                    document.getElementById('expiryDateError').textContent = 'Card has expired';
-                    isValid = false;
-                }
             }
         }
         
@@ -491,7 +405,6 @@ function validateForm() {
     // ===== FINAL VALIDATION =====
     if (!isValid) {
         console.log('❌ Form validation failed - scrolling to first error');
-        // Scroll to the first error
         const firstError = document.querySelector('.error-message[style*="display: block"]');
         if (firstError) {
             firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -589,59 +502,56 @@ function setupEnhancedEventListeners() {
     }
 }
 
-// ===== ENHANCED PAYMENT PROCESSING WITH ORDER CREATION =====
-async function processPayment(paymentMethod, totalAmount) {
-    console.log('💳 Processing payment:', paymentMethod);
+// ===== STATIC ORDER PROCESSING (NO REAL PAYMENT) =====
+async function processOrder(paymentMethod, totalAmount) {
+    console.log('💳 Processing order (Static Demo):', paymentMethod);
     
     const payButton = document.getElementById('payButton');
     
     try {
         // Show processing state
         payButton.classList.add('loading');
-        payButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing $${totalAmount}...`;
+        payButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing Order...`;
         
-        // Get cart data with better debugging
-        const cartData = loadCartData();
-        console.log('🛒 Cart data loaded:', cartData);
+        // Get cart data
+        const cart = getCart();
+        console.log('🛒 Cart items:', cart);
         
-        if (!cartData || !cartData.items || cartData.items.length === 0) {
-            throw new Error('Your cart is empty. Please add items to your cart before payment.');
+        if (!cart || cart.length === 0) {
+            throw new Error('Your cart is empty. Please add items to your cart before placing an order.');
         }
 
-        // Get user and session info
-        const user = JSON.parse(localStorage.getItem('user'));
-        const sessionId = localStorage.getItem('moya_session_id');
-
-        // ✅ FIXED: Get customer information from ACTUAL form fields
+        // Get customer information
         const customerName = document.getElementById('customerName')?.value?.trim() || 'Guest Customer';
         const customerPhone = document.getElementById('customerPhone')?.value?.trim() || 'Not provided';
-        const customerEmail = document.getElementById('email')?.value?.trim() || (user ? user.email : 'guest@example.com');
+        const customerEmail = document.getElementById('email')?.value?.trim() || 'guest@example.com';
 
         console.log('👤 Customer info:', { customerName, customerPhone, customerEmail });
 
-        // ✅ FIXED: Create order data with safe defaults
+        // Create order data
         const orderData = {
-            items: cartData.items.map(item => ({
+            order_number: 'MOYA-' + Date.now(),
+            items: cart.map(item => ({
                 id: item.menu_item_id,
                 name: item.name,
-                price: parseFloat(item.price || item.unit_price),
+                price: parseFloat(item.price),
                 quantity: parseInt(item.quantity),
                 variant: item.variant || null,
-                specialInstructions: item.special_instructions || '',
-                total: parseFloat(item.total_price || (item.price * item.quantity))
+                total: parseFloat(item.price) * parseInt(item.quantity)
             })),
-            total: parseFloat(cartData.total),
-            subtotal: parseFloat(cartData.subtotal),
-            tax: parseFloat(cartData.tax),
+            total: parseFloat(totalAmount),
+            subtotal: parseFloat(localStorage.getItem('cartSubtotal') || '0.00'),
+            tax: parseFloat(localStorage.getItem('cartTax') || '0.00'),
             orderType: document.getElementById('order-type')?.value || 'dine-in',
             paymentMethod: paymentMethod,
-            paymentStatus: 'paid',
+            paymentStatus: 'demo_complete',
             notes: document.getElementById('special-instructions')?.value || '',
-            user_id: user ? user.id : null,
-            session_id: sessionId || null,
             customerName: customerName,
             customerPhone: customerPhone,
-            customerEmail: customerEmail
+            customerEmail: customerEmail,
+            timestamp: new Date().toISOString(),
+            estimatedTime: '20-30 minutes',
+            status: 'confirmed'
         };
 
         // Add delivery address if applicable
@@ -653,37 +563,19 @@ async function processPayment(paymentMethod, totalAmount) {
             };
         }
 
-        console.log('📦 COMPLETE order data being sent:', JSON.stringify(orderData, null, 2));
+        console.log('📦 Order data created:', orderData);
 
-        console.log('📦 Sending order to server...');
-       
-        // ✅ Send to backend WITH DEBUGGING
-        const response = await fetch('/api/orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
-
-        console.log('📡 Response status:', response.status, response.statusText);
-        console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('❌ Order creation failed:', errorText);
-            throw new Error(`Failed to save order: ${errorText}`);
-        }
-
-        const savedOrder = await response.json();
-        console.log('✅ Order saved successfully:', savedOrder);
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Show success message
-        showSuccessMessage(savedOrder);
+        showSuccessMessage(orderData);
 
         // Store for confirmation page
-        localStorage.setItem('lastOrder', JSON.stringify(savedOrder));
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
 
         // Clear cart after successful order
-        await clearCartAfterPayment();
+        clearCartAfterOrder();
         
         // Redirect to confirmation page after 3 seconds
         setTimeout(() => {
@@ -691,21 +583,20 @@ async function processPayment(paymentMethod, totalAmount) {
         }, 3000);
         
     } catch (error) {
-        console.error('❌ Payment processing error:', error);
+        console.error('❌ Order processing error:', error);
         
         // Reset payment button
         if (payButton) {
             payButton.classList.remove('loading');
-            payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${totalAmount}`;
+            payButton.innerHTML = `<i class="fas fa-lock"></i> Complete Order $${totalAmount}`;
         }
         
-        alert(`Payment failed: ${error.message}`);
+        alert(`Order failed: ${error.message}`);
     }
 }
 
 // ===== SHOW SUCCESS MESSAGE =====
 function showSuccessMessage(order) {
-    // Create success message element
     const successHTML = `
         <div class="success-message" style="
             background: #d4edda;
@@ -717,16 +608,22 @@ function showSuccessMessage(order) {
             text-align: center;
         ">
             <h3 style="margin: 0 0 0.5rem 0; color: #155724;">
-                <i class="fas fa-check-circle"></i> Order Placed Successfully!
+                <i class="fas fa-check-circle"></i> Order Placed Successfully! (Demo)
             </h3>
             <p style="margin: 0.25rem 0;">
                 <strong>Order Number:</strong> ${order.order_number}
             </p>
             <p style="margin: 0.25rem 0;">
-                <strong>Total:</strong> $${order.total}
+                <strong>Total:</strong> $${order.total.toFixed(2)}
             </p>
             <p style="margin: 0.25rem 0;">
-                <strong>Status:</strong> ${order.status}
+                <strong>Payment Method:</strong> ${order.paymentMethod} (Demo)
+            </p>
+            <p style="margin: 0.25rem 0;">
+                <strong>Estimated Ready:</strong> ${order.estimatedTime}
+            </p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">
+                <em>This is a demo order. No real payment was processed.</em>
             </p>
             <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">
                 Redirecting to confirmation page...
@@ -737,7 +634,9 @@ function showSuccessMessage(order) {
     // Insert success message before the form
     const paymentContainer = document.querySelector('.payment-container');
     const form = document.getElementById('paymentForm');
-    paymentContainer.insertAdjacentHTML('beforeend', successHTML);
+    if (paymentContainer && form) {
+        paymentContainer.insertAdjacentHTML('beforeend', successHTML);
+    }
     
     // Hide the pay button
     const payButton = document.getElementById('payButton');
@@ -746,148 +645,104 @@ function showSuccessMessage(order) {
     }
 }
 
-// Clear all cart data after successful order
-async function clearCartAfterPayment() {
-  try {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const sessionId = localStorage.getItem('moya_session_id');
-
-    // Optional backend clear request if your API supports it
-    await fetch('/api/cart/clear', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user_id: user ? user.id : null,
-        session_id: sessionId || null
-      })
-    });
-
-    // Clear local cart data
-    localStorage.removeItem('cartItems');
-    localStorage.removeItem('cartData');
-    localStorage.removeItem('cartTotal');
-    localStorage.removeItem('cartSubtotal');
-    localStorage.removeItem('cartTax');
-    localStorage.removeItem('pendingCartData');
-
-    console.log('✅ Cart cleared successfully after payment');
-  } catch (error) {
-    console.error('❌ Failed to clear cart after payment:', error);
-  }
-  
-}
-
-// Load complete cart data - IMPROVED VERSION
-function loadCartData() {
+// Clear cart after successful order
+function clearCartAfterOrder() {
     try {
-        console.log('🛒 Loading cart data from localStorage...');
-        
-        // Check all possible cart storage locations
-        const cartData = JSON.parse(localStorage.getItem('cartData') || 'null');
-        const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-        const pendingCartData = JSON.parse(localStorage.getItem('pendingCartData') || 'null');
-        
-        console.log('📦 cartData:', cartData);
-        console.log('📦 cartItems:', cartItems);
-        console.log('📦 pendingCartData:', pendingCartData);
-        
-        // Try cartData first (most complete)
-        if (cartData && cartData.items && cartData.items.length > 0) {
-            console.log('✅ Using cartData with', cartData.items.length, 'items');
-            return cartData;
-        }
-        
-        // Try cartItems array
-        if (cartItems && cartItems.length > 0) {
-            console.log('✅ Using cartItems with', cartItems.length, 'items');
-            const subtotal = calculateSubtotal(cartItems);
-            const taxRate = 0.085;
-            const tax = subtotal * taxRate;
-            const total = subtotal + tax;
-            
-            return {
-                items: cartItems,
-                subtotal: subtotal.toFixed(2),
-                tax: tax.toFixed(2),
-                total: total.toFixed(2)
-            };
-        }
-        
-        // Try pendingCartData
-        if (pendingCartData && pendingCartData.items && pendingCartData.items.length > 0) {
-            console.log('✅ Using pendingCartData with', pendingCartData.items.length, 'items');
-            return pendingCartData;
-        }
-        
-        console.log('❌ No cart data found in any storage location');
-        return { items: [], subtotal: '0.00', tax: '0.00', total: '0.00' };
-        
+        // Clear cart data
+        localStorage.removeItem('moya_cart');
+        localStorage.removeItem('cartTotal');
+        localStorage.removeItem('cartSubtotal');
+        localStorage.removeItem('cartTax');
+
+        console.log('✅ Cart cleared successfully after order');
     } catch (error) {
-        console.error('❌ Error loading cart data:', error);
-        return { items: [], subtotal: '0.00', tax: '0.00', total: '0.00' };
+        console.error('❌ Failed to clear cart after order:', error);
     }
 }
 
-// Calculate subtotal from cart items
-function calculateSubtotal(cartItems) {
-    return cartItems.reduce((sum, item) => {
-        const itemTotal = item.total_price ? parseFloat(item.total_price) : 
-                         (item.custom_price ? parseFloat(item.custom_price) : parseFloat(item.price)) * item.quantity;
-        return sum + itemTotal;
-    }, 0);
-}
-
-// Load order summary from cart
-async function loadOrderSummary() {
-    try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const sessionId = localStorage.getItem('moya_session_id');
-        
-        let identifier;
-        if (user && user.id) {
-            identifier = user.id;
-        } else if (sessionId) {
-            identifier = sessionId;
-        } else {
-            return;
-        }
-
-        const response = await fetch(`/api/cart/${identifier}`);
-        if (!response.ok) throw new Error('Failed to load cart');
-        
-        const cartItems = await response.json();
-        displayOrderSummary(cartItems);
-        
-    } catch (error) {
-        console.error('Error loading order summary:', error);
-    }
-}
-
-function displayOrderSummary(cartItems) {
-    // If you have an order summary section, update it here
+// Load order summary
+function loadOrderSummary() {
+    const cart = getCart();
     const orderSummary = document.getElementById('orderSummary');
-    if (orderSummary) {
-        let html = '<h3>Order Items:</h3>';
-        cartItems.forEach(item => {
-            const itemTotal = item.total_price || (item.price * item.quantity);
+    
+    if (orderSummary && cart.length > 0) {
+        let html = '<h3>Order Summary</h3>';
+        cart.forEach(item => {
+            const itemTotal = parseFloat(item.price) * parseInt(item.quantity);
             html += `
-                <div class="order-item">
-                    <span>${item.name} x ${item.quantity}</span>
-                    <span>$${parseFloat(itemTotal).toFixed(2)}</span>
+                <div class="order-item" style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                    <div>
+                        <strong>${item.name}</strong>
+                        ${item.variant ? `<br><small>${item.variant}</small>` : ''}
+                        <br><small>Qty: ${item.quantity}</small>
+                    </div>
+                    <div>$${itemTotal.toFixed(2)}</div>
                 </div>
             `;
         });
+        
+        const subtotal = calculateCartSubtotal(cart);
+        const tax = subtotal * 0.085;
+        const total = subtotal + tax;
+        
+        html += `
+            <div style="border-top: 2px solid #333; margin-top: 1rem; padding-top: 1rem;">
+                <div style="display: flex; justify-content: space-between;">
+                    <strong>Subtotal:</strong>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <strong>Tax (8.5%):</strong>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 1.2em; font-weight: bold; margin-top: 0.5rem;">
+                    <strong>Total:</strong>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+            </div>
+        `;
+        
         orderSummary.innerHTML = html;
+    } else if (orderSummary) {
+        orderSummary.innerHTML = '<p>Your cart is empty</p>';
     }
 }
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('💳 Payment page loaded');
+    console.log('💳 Payment page loaded (Static Version)');
     initializePayment();
 });
 
+// Demo function to test with sample data
+function demoOrder() {
+    // Add sample items to cart for testing
+    const sampleCart = [
+        {
+            menu_item_id: 1,
+            name: 'Ful',
+            price: 10.99,
+            quantity: 2,
+            variant: null,
+            image: 'image/ful.jpeg'
+        },
+        {
+            menu_item_id: 2,
+            name: 'Chechebsa',
+            price: 12.99,
+            quantity: 1,
+            variant: 'With Teff',
+            image: 'image/chechebsa.jpg'
+        }
+    ];
+    
+    localStorage.setItem('moya_cart', JSON.stringify(sampleCart));
+    loadCartTotal();
+    loadOrderSummary();
+    alert('Demo cart loaded! You can now test the payment form.');
+}
+
 // Export functions for global access
 window.loadCartTotal = loadCartTotal;
-window.processPayment = processPayment;
-window.processStripePayment = processStripePayment;
+window.processOrder = processOrder;
+window.demoOrder = demoOrder;

@@ -1,12 +1,10 @@
-// Authentication functions for homepage
+// Authentication functions for homepage (static version)
 function checkAuth() {
     const user = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
     
     console.log('🔐 Auth check - User:', user);
-    console.log('🔐 Auth check - Token:', token);
     
-    if (user && token) {
+    if (user) {
         const userData = JSON.parse(user);
         console.log('✅ User is logged in:', userData.email);
         
@@ -75,21 +73,28 @@ function toggleDropdown() {
 function logout() {
     console.log('🚪 Logging out...');
     
-    // Clear local storage
-    localStorage.removeItem('token');
+    // Clear local storage only (no API call)
     localStorage.removeItem('user');
-    
-    // Call logout API to clear server cookie
-    fetch('http://localhost:3000/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include'
-    }).catch(err => console.log('Logout API call failed:', err));
     
     // Update UI immediately
     updateUIForLoggedOutUser();
     
     // Redirect to home page
-    window.location.href = '/';
+    window.location.href = 'index.html';
+}
+
+// Simple login function for demo purposes
+function demoLogin(email, name) {
+    const userData = {
+        email: email,
+        name: name || email.split('@')[0]
+    };
+    
+    localStorage.setItem('user', JSON.stringify(userData));
+    checkAuth();
+    
+    // Show success message
+    alert(`Welcome back, ${userData.name}! (This is a demo login)`);
 }
 
 // Close dropdown when clicking outside
@@ -151,16 +156,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hamburger toggle
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('show');
-    hamburger.setAttribute('aria-expanded', isOpen);
-  });
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('show');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  }
 
   // Header scroll effect
   const header = document.querySelector('.about');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 50);
-  });
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  }
 
   // Start slider
   startSlider();
@@ -168,57 +177,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //clickable menu
 function openDish(id) {
-  window.location.href = `order.html#${id}`;
+  // For static version, just go to order page without specific dish
+  window.location.href = `order.html`;
 }
 
-const slides = document.querySelectorAll('.slide');
-let currentSlide = 0;
-const totalSlides = slides.length;
-
-slides[currentSlide].classList.add('active');
-
-function showSlide(index) {
-  slides.forEach(slide => slide.classList.remove('active'));
-  slides[index].classList.add('active');
-}
-
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % totalSlides;
-  showSlide(currentSlide);
-}
-
-function prevSlide() {
-  currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-  showSlide(currentSlide);
-}
-
-// Auto-slide every 1.5s
-setInterval(nextSlide, 3500);
-
-//slide for menu
+// Slide functionality for menu
 function scrollMenu(button, direction) {
   const track = button.parentElement.querySelector('.menu-track');
-  const scrollAmount = track.clientWidth; // scroll by one viewport width
-  track.scrollBy({
-    left: direction * scrollAmount,
-    behavior: "smooth"
-  });
+  if (track) {
+    const scrollAmount = track.clientWidth;
+    track.scrollBy({
+      left: direction * scrollAmount,
+      behavior: "smooth"
+    });
+  }
 }
 
-//review 
+// Review slider
 let currentReview = 0;
 const reviews = document.querySelectorAll('.review');
 
 function showNextReview() {
-  reviews[currentReview].classList.remove('active');
-  currentReview = (currentReview + 1) % reviews.length;
-  reviews[currentReview].classList.add('active');
+  if (reviews.length > 0) {
+    reviews[currentReview].classList.remove('active');
+    currentReview = (currentReview + 1) % reviews.length;
+    reviews[currentReview].classList.add('active');
+  }
 }
 
-setInterval(showNextReview, 4000); // Change every 4 seconds
+if (reviews.length > 0) {
+  setInterval(showNextReview, 4000);
+}
 
-//map
-const map = L.map('mapid').setView([38.8439, -77.1200], 16);
+// Map functionality (only if map element exists)
+const mapElement = document.getElementById('mapid');
+if (mapElement) {
+  const map = L.map('mapid').setView([38.8439, -77.1200], 16);
 
   // Add OpenStreetMap tiles
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -232,19 +226,41 @@ const map = L.map('mapid').setView([38.8439, -77.1200], 16);
       "<b>MOYA CAFE AND KITCHENS LLC</b><br>3819 S George Mason Dr Suite A,<br>Bailey's Crossroads, VA 22041<br>Open 07:00 AM – 09:00 PM"
     )
     .openPopup();
+}
 
-     const form = document.getElementById("contactForm");
-    const thankYouMessage = document.getElementById("thankYouMessage");
+// Contact form (static version)
+const form = document.getElementById("contactForm");
+const thankYouMessage = document.getElementById("thankYouMessage");
 
-    form.addEventListener("submit", function(event) {
-      event.preventDefault(); // Stop page refresh
+if (form && thankYouMessage) {
+  form.addEventListener("submit", function(event) {
+    event.preventDefault(); // Stop page refresh
 
-      if (form.checkValidity()) {
-        thankYouMessage.style.display = "block"; 
-        form.reset(); 
+    if (form.checkValidity()) {
+      // Show success message
+      thankYouMessage.style.display = "block"; 
+      form.reset(); 
 
-        setTimeout(() => {
-          thankYouMessage.style.display = "none";
-        }, 3000);
-      }
+      // Hide message after 3 seconds
+      setTimeout(() => {
+        thankYouMessage.style.display = "none";
+      }, 3000);
+    }
+  });
+}
+
+// Demo login buttons (add these to your HTML if needed)
+function setupDemoLogin() {
+  const demoLoginBtn = document.getElementById('demo-login-btn');
+  if (demoLoginBtn) {
+    demoLoginBtn.addEventListener('click', function() {
+      demoLogin('demo@example.com', 'Demo User');
     });
+  }
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  checkAuth();
+  setupDemoLogin();
+});

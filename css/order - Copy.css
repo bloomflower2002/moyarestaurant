@@ -902,6 +902,7 @@ footer p, footer a {
   color: #666;
   font-size: 1.1rem;
 }
+
 /* Items Grid for dynamic content */
 .items-grid {
   display: grid;
@@ -909,6 +910,7 @@ footer p, footer a {
   margin-bottom: 3rem;
   padding: 0 35px;
 }
+
 
 /* Ensure modal images have proper fallback */
 .modal-body img {
