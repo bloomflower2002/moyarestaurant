@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+  
+  <header>
+  <div class="logo">
+    <img src="image/logo.png" alt="MOYA Cafe Logo">
+  </div>
+
+  <div class="right">
+  <div class="icons">
+    <a href="cart.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart">
+      <span id="cart-count">0</span>
+    </a>
+    <!-- Add ID to sign-in link -->
+    <a href="signin.html" aria-label="Sign in" id="signin-icon">
+      <div class="icon-wrapper">
+  <svg viewBox="0 0 24 24" fill="white" width="24" height="24">
+    <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+  </svg></div>
+</a>
+  </div>
+    
+  <!-- Profile Section (shown when logged in) -->
+  <div id="profile-section" class="profile-section" style="display: none;">
+    <div class="profile-info">
+      <div class="profile-dropdown">
+        <div class="user-avatar-container" onclick="toggleDropdown()">
+          <div class="user-avatar-circle" id="user-avatar-circle">
+            K
+          </div>
+          <i class="fas fa-chevron-down dropdown-arrow"></i>
+        </div>
+        <div class="dropdown-content" id="dropdownMenu">
+          <div class="dropdown-header">
+            <div class="dropdown-avatar">K</div>
+            <div class="dropdown-user-info">
+              <div class="dropdown-username">k@gmail.com</div>
+              <div class="dropdown-welcome">Welcome, k</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="user.html" class="dropdown-item">
+            <i class="fas fa-user" style="margin-right: 8px;"></i>My Profile
+          </a>
+          <a href="order.html" class="dropdown-item">
+            <i class="fas fa-shopping-bag" style="margin-right: 8px;"></i>My Orders
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item logout-item" onclick="logout()">
+            <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+
+  <section class="cart-section">
+    <h1>Your Cart</h1>
+    <div id="cart-items"></div>
+
+    <div class="instructions">
+      <h3>Special Instructions</h3>
+      <textarea placeholder="Add a note for the kitchen..."></textarea>
+      <p class="note">
+        We’ll do our best to accommodate special requests but may not be able to honor all substitutes. Extra charges may apply.
+      </p>
+    </div>
+
+    <div class="pickup-info" id="pickup-info"></div>
+
+    <div class="summary">
+      <p>Subtotal: <span id="subtotal">$0.00</span></p>
+      <p>Tax: <span id="tax">$0.00</span></p>
+      <h2>Total: <span id="total">$0.00</span></h2>
+      <button class="checkout" onclick="goToPayment()">Proceed to Payment</button>
+    </div>
+  </section>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>

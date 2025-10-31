@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation</title>
+  <link rel="stylesheet" href="css/reserve.css">
+</head>
+<body>
+
+   <header>
+    <div class="logo">
+      <img src="image/logo.png" alt="MOYA Cafe Logo">
+    </div>
+    <div class="icons">
+     <a href="signin.html"><img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User"></a>
+    </div>
+  </header>
+
+  <div class="reservation-container">
+    <h2>Reserve Now</h2>
+    <form class="reservation-form">
+
+      <label for="date">Date</label>
+      <input type="date" id="date" required>
+
+      <label for="time">Time</label>
+      <input type="time" id="time" required>
+
+      <label for="people">Number of Guests</label>
+      <select id="people" required>
+        <option value="">Select</option>
+        <option>1 Person</option>
+        <option>2 People</option>
+        <option>3 People</option>
+        <option>4 People</option>
+        <option>5+ People</option>
+      </select>
+
+      <label for="note">Special Requests</label>
+      <textarea id="note" placeholder="Add a note (optional)"></textarea>
+
+      <button type="submit">Book Now</button>
+    </form>
+
+  </div>
+
+    <footer>
+    <div>
+      <div class="footer-section contact">
+      <h1 class="location">Location</h1>
+      <p>
+        3819 S George Mason Dr Suite A,<br>
+        Bailey's Crossroads, VA 22041, United States
+      </p>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="hour">
+      <h1>Hours</h1>
+      <p>Breakfast &amp; Brunch • Vegetarian<br>
+      <strong>Open:</strong> 08:00 AM – 01:00 PM (Monday-Friday)</br>
+                    08:00 AM -02:00Am (Saturday & Sunday)</p>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="social">
+      <h1>Social Media</h1>
+      <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/174/174855.png" alt="Instagram" /></a>
+      <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/3046/3046122.png" alt="TikTok" /></a>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+    <div class="contact">
+      <h1>Contact Us</h1>
+      <a href="tel:+17038837230">+1 703-883-7230</a> 
+    </div>
+  </div>
+  
+    <div class="footer-section contact">
+<div class="contact">
+      <h1>Terms & Conditions</h1>
+       <a href="policy.html">Privacy Policy</a> 
+    </div>
+    </div>
+</footer>
+<div class="copyright">
+  <p>© 2025 Moya. All Rights Reserved.</p>
+</div>
+
+<script src="js/reserve.js"></script>
+  
+</body>
+</html>

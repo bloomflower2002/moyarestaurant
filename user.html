@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile | MOYA Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/user.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html"><img src="image/logo.png" alt="MOYA Cafe Logo"></a>
+  </div>
+  <div class="nav-icons">
+    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</header>
+
+<main class="profile-container">
+
+  <!-- Profile Info -->
+  <section class="profile-info">
+    <div class="avatar">
+      <img id="avatar-img" src="image/default-avatar.png" alt="Avatar">
+    </div>
+
+    <div class="details">
+      <h2 id="user-name">Guest User</h2>
+      <p id="user-email">guest@example.com</p>
+
+      <!-- Two separate action buttons -->
+      <div class="action-buttons">
+        <button id="show-edit-form" class="edit-btn">Edit Name/Email</button>
+        <button id="show-avatar-form" class="photo-btn">Change Photo</button>
+      </div>
+
+      <!-- Hidden edit form -->
+      <form id="edit-form" class="hidden">
+        <input type="text" id="edit-name" placeholder="New name">
+        <input type="email" id="edit-email" placeholder="New email">
+        <button type="button" id="save-details">Save</button>
+      </form>
+
+      <!-- Hidden avatar upload form -->
+      <form id="avatar-form" class="hidden">
+        <input type="file" id="avatar-file" accept="image/*">
+        <button type="button" id="save-avatar">Save Photo</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Loyalty Program Section -->
+  <section class="loyalty-section">
+    <h2><i class="fas fa-award"></i> MOYA Loyalty Program</h2>
+    
+    <div class="loyalty-card">
+      <h3>Your MOYA Rewards Card</h3>
+      <p>Earn a free meal after every 4 orders!</p>
+      
+      <div class="loyalty-stats">
+        <div class="stat">
+          <div class="stat-value" id="order-count">0</div>
+          <div class="stat-label">Orders</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="free-meals">0</div>
+          <div class="stat-label">Free Meals</div>
+        </div>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <p>Order <span id="remaining-orders">4</span> more times to earn a free meal!</p>
+    </div>
+    
+    <div class="reward-message hidden" id="reward-message">
+      <i class="fas fa-gift"></i>
+      <h3>Congratulations!</h3>
+      <p>You've earned a free meal! Show this message at checkout to redeem.</p>
+      <p><strong>Your Reward Code: MOYA-FREE-<span id="reward-code">1234</span></strong></p>
+    </div>
+  </section>
+
+  <section class="saved-orders">
+    <h2><i class="fas fa-history"></i> Past Orders</h2>
+    <ul id="order-history">
+      <li>No past orders yet.</li>
+    </ul>
+  </section>
+
+  <section class="preferences">
+    <h2><i class="fas fa-cog"></i> Preferences</h2>
+    <label>
+      <input type="checkbox" id="newsletter">
+      Receive MOYA Cafe news & offers
+    </label>
+  </section>
+
+ 
+</main>
+
+<footer>
+  <p>&copy; 2025 MOYA Cafe & Kitchens LLC</p>
+</footer>
+
+<script src="js/user.js"></script>
+</body>
+</html>

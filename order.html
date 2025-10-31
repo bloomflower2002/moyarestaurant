@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order - MOYA Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/order.css">
+</head>
+<body>
+
+  <header>
+  <div class="logo">
+    <img src="image/logo.png" alt="MOYA Cafe Logo">
+  </div>
+
+  <div class="right">
+  <div class="icons">
+    <a href="cart.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart">
+      <span id="cart-count">0</span>
+    </a>
+    <!-- Add ID to sign-in link -->
+    <a href="signin.html" aria-label="Sign in" id="signin-icon">
+  <svg viewBox="0 0 24 24" fill="white" width="24" height="24">
+    <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+  </svg>
+</a>
+  </div>
+    
+  <!-- Profile Section (shown when logged in) -->
+  <div id="profile-section" class="profile-section" style="display: none;">
+    <div class="profile-info">
+      <div class="profile-dropdown">
+        <div class="user-avatar-container" onclick="toggleDropdown()">
+          <div class="user-avatar-circle" id="user-avatar-circle">
+            K
+          </div>
+          <i class="fas fa-chevron-down dropdown-arrow"></i>
+        </div>
+        <div class="dropdown-content" id="dropdownMenu">
+          <div class="dropdown-header">
+            <div class="dropdown-avatar">K</div>
+            <div class="dropdown-user-info">
+              <div class="dropdown-username">k@gmail.com</div>
+              <div class="dropdown-welcome">Welcome, k</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="user.html" class="dropdown-item">
+            <i class="fas fa-user" style="margin-right: 8px;"></i>My Profile
+          </a>
+          <a href="order.html" class="dropdown-item">
+            <i class="fas fa-shopping-bag" style="margin-right: 8px;"></i>My Orders
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item logout-item" onclick="logout()">
+            <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+
+  <div class="top-bar">Only accepting scheduled orders</div>
+
+  <section class="order-info">
+    <h1>MOYA Cafe & Kitchens LLC</h1>
+    <p>3819 S George Mason Dr Suite A, Bailey's Crossroads, VA 22041</p>
+  </section>
+
+  <nav class="choice">
+    <div class="left-links">
+      <div class="dropdown">
+        <a href="#" class="dropbtn">Food</a>
+        <div class="dropdown-content">
+          <a href="#breakfast">Breakfast</a>
+          <a href="#lunch">Lunch</a>
+          <a href="#vegetarian">Vegetarian</a>
+          <a href="#seafood">Sea Food</a>
+          <a href="#kitfo">Kitfo</a>
+          <a href="#sidedish">Side Dish</a>
+          <a href="#extra">Extra</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <a href="#" class="dropbtn">Drink</a>
+        <div class="dropdown-content">
+          <a href="#beverage">Beverage</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="search-box" class="right-search">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <circle cx="10" cy="10" r="7" stroke="gray" stroke-width="2" fill="none"/>
+        <line x1="15" y1="15" x2="21" y2="21" stroke="black" stroke-width="2"/>
+      </svg>
+      <input id="menu-search" type="text" placeholder="Search menu...">
+    </div>
+  </nav>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading menu...</p>
+  </div>
+
+  <!-- Menu will be dynamically populated here -->
+  <section class="menu" id="menu-container">
+    <!-- Menu items will be loaded here by JavaScript -->
+  </section>
+
+  <!-- Combo Modal -->
+  <div id="comboModal" class="combo-modal">
+    <div class="combo-modal-content">
+      <span class="close-combo" onclick="closeComboModal()">&times;</span>
+      <img id="comboImg" src="" alt="Combo Image">
+      <div class="combo-modal-right">
+        <h2 id="comboTitle"></h2>
+        <form id="comboForm">
+          <div id="comboOptions" class="options"></div>
+          <p><strong>Price:</strong> $<span id="comboPrice"></span></p>
+          <button type="button" id="modal-cart" class="cart" onclick="addComboToCart(event)">Add to Cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chechebsa Modal -->
+  <div id="chechebsaModal" class="modal">
+    <div class="modal-content">
+      <span class="close-combo" onclick="closeChechebsaModal()">&times;</span>
+      <div class="modal-body">
+        <img id="chechebsa-img" src="" alt="Chechebsa">
+        <div class="combo-modal-right">
+          <h2 id="chechebsa-title"></h2>
+          <p id="chechebsa-desc"></p>
+          <p>
+            <label>
+              <input type="checkbox" id="chechebsa-teff"> Add Black Teff (+$1.99)
+            </label>
+          </p>
+          <p><strong>Price:</strong> $<span id="chechebsa-price"></span></p>
+          <button type="button" class="cart" onclick="addChechebsaToCart()">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drink Modal -->
+  <div id="drinkModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeDrinkModal()">&times;</span>
+      <div class="modal-body">
+        <img id="comboImg" src="image/Soda.jpeg" alt="Soda">
+        <div id="modal-content-right">
+          <h2>Select Your Drinks</h2>
+          <div id="drinkOptions" class="options">
+            <label><input type="checkbox" value="Diet Coke"> Diet Coke</label>
+            <label><input type="checkbox" value="Sprite"> Sprite</label>
+            <label><input type="checkbox" value="Ginger Ale"> Ginger Ale</label>
+            <label><input type="checkbox" value="Coca-Cola"> Coca-Cola</label>
+          </div>
+          <p><strong>Price:</strong> $3.17</p>
+          <button type="button" id="modal-cart" class="cart" onclick="addDrinksToCart()">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item Detail Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="modal-body">
+        <img id="modal-img" src="" alt="Dish Image">
+        <div class="modal-details">
+          <h2 id="modal-title"></h2>
+          <p id="modal-desc"></p>
+          <p id="modal-price"></p>
+          <div class="button-group">
+            <button id="modal-cart" class="cart" onclick="addToCartModal()">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <footer>
+    <div class="footer-section contact">
+      <h1 class="location">Location</h1>
+      <p>
+        3819 S George Mason Dr Suite A,<br>
+        Bailey's Crossroads, VA 22041, United States
+      </p>
+    </div>
+
+    <div class="footer-section contact">
+      <div class="hour">
+        <h1>Hours</h1>
+        <p>Breakfast &amp; Brunch • Vegetarian<br>
+        <strong>Open:</strong> 08:00 AM – 01:00 PM (Monday-Friday)<br>
+        08:00 AM -02:00Am (Saturday & Sunday)</p>
+      </div>
+    </div>
+
+    <div class="footer-section contact">
+      <div class="social">
+      <div class="social">
+      <h1>Social Media</h1>
+      <a href="https://www.instagram.com/moyacafeandresturant?igsh=eXhlb3U2dzl4eTh0" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/174/174855.png" alt="Instagram" /></a>
+      <a href="https://www.tiktok.com/@moya.cafekitchen"  target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/3046/3046122.png" alt="TikTok" /></a>
+    </div>
+    </div>
+
+    <div class="footer-section contact">
+      <div class="contact">
+        <h1>Contact Us</h1>
+        <a href="tel:+17038837230">+1 703-883-7230</a> 
+      </div>
+    </div>
+  
+    <div class="footer-section contact">
+      <div class="contact">
+        <h1>Terms & Conditions</h1>
+        <a href="policy.html">Privacy Policy</a> 
+      </div>
+    </div>
+  </footer>
+ 
+  <div class="copyright">
+    <p>© 2025 Moya. All Rights Reserved.</p>
+  </div>
+
+  <script src="js/order.js"></script>
+</body>
+</html>

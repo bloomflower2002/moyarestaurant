@@ -1,0 +1,29 @@
+body {
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg,#000000 0%,#e40a1c 100%);
+        color: #fff;
+    }
+    .confirmation-box {
+        background: white;
+        color: #2d3748;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+    }
+    .confirmation-box h2 { margin-bottom: 20px; }
+    .done-button {
+        margin-top: 20px;
+        padding: 15px 30px;
+        background: linear-gradient(135deg,#000000 0%,#e40a1c 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+    }
