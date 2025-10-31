@@ -925,3 +925,4 @@ function debugDynamicIds() {
 
 // Call this in browser console to test
 window.debugDynamicIds = debugDynamicIds;
+}
